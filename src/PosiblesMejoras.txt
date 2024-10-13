@@ -1,0 +1,8 @@
+Que las funciones get en vez de revertir devuelva un 0, por ejemplo.
+
+Si un user crea una Card su balance es de 1, pero si la borra su 
+balance sigue siendo 1, a la hora de comprobarlo para ver si puede 
+solicitar conexion eso me engaña.
+
+Añadir boton para cambiar visibilidad en detalles card para Uni.
+No está recibiendo bien los datos para las datos privados desde el contrato. 
