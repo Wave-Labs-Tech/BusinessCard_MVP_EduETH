@@ -36,7 +36,7 @@ export const CardDataComponent = ({ id, loadingText }) => {
             console.error("Error: ID no está definido.");
             return null; // O renderiza algún mensaje de error o componente de carga
         }
-        // let companyId = 0;
+        let contact = false;
         console.log("contract!!! ETC", userAddress, isConnected, contract);
         try {
             // const ethers = require("ethers");
@@ -52,10 +52,10 @@ export const CardDataComponent = ({ id, loadingText }) => {
             // }
             let cardAddress = '0x0';
             try {
-                cardAddress = await contract.cardIds(id);
+                cardAddress = await contract.cardAddresses(parseInt(id));
                 setCardAddress(cardAddress);
             } catch (error2) {
-                console.error("Error al obtener la cardAddress" + error2)
+                console.error("Error al obtener la cardAddress - " + error2)
             }
             console.log("COMPANY-ID", companyId);
             console.log("Card-ADDRESS", cardAddress);
@@ -74,11 +74,7 @@ export const CardDataComponent = ({ id, loadingText }) => {
                 // console.log("!!!!!!!!!!tokenURI", tokenURI);
                 console.log("!!!!!!!!!!Balance??", parseInt(tokenBalance.toString()) > 0);
                 console.log("!!!!!!!!!!Balance", parseInt(tokenBalance.toString()));
-                // setTokenURI(tokenURI);
-                // tokenURI = GetIpfsUrlFromPinata(tokenURI);
-                // meta = await axios.get(tokenURI);
-                // Suponiendo que el tamaño del array es un uint (puedes definir esto en tu contrato)
-
+                
                 const shared = await contract.hasShared(userAddress, cardAddress);
                 console.log("Se he enviado share", shared);
                 setIsSended(shared);
@@ -93,16 +89,17 @@ export const CardDataComponent = ({ id, loadingText }) => {
                 // console.log("Se ha recibido share2", isSended2);
                 if (sharedWithMe) setIsShared(true);
                 
-                const contact = await contract.isMyContact(cardAddress);
+                contact = await contract.isMyContact(cardAddress);
                 // return contact
+                console.log("Is contact??", contact);
                 if (contact) setIsContact(true);
             }
             
             console.log("Comprobar CompanyID", companyId);
-            if (isContact || companyId > 0) {
+            if (contact || companyId > 0) {
                 try {
-                    // const cardPrivateData = await contract.getContactInfoCard(userAddress);//FALLA FALLA FALLA 
-                    const privateData = "https://gateway.pinata.cloud/ipfs/QmZYgYkrCvK56rFVetKB5f2fi6Kdeq9ioyishLRVg1wYg8"
+                    const privateData = await contract.getPrivatetInfoCard(cardAddress);
+                    // const privateData = "https://gateway.pinata.cloud/ipfs/QmZYgYkrCvK56rFVetKB5f2fi6Kdeq9ioyishLRVg1wYg8"
                     console.log("CARD--PRIVATE--DATA", privateData);
                     const response = await axios.get(privateData);
                     console.log("CARD--PRIVATE--RESPONSE.data", response.data.encryptedData);
@@ -193,12 +190,10 @@ export const CardDataComponent = ({ id, loadingText }) => {
     if (typeof data?.image == "string")
         data.image = GetIpfsUrlFromPinata(data?.image);
 
-    console.log("LOADING TEXT", loadingText);
-
     if (isLoading) {
         <LoadingScreen loadingText={loadingText} />
     }
-
+console.log("CARD private DATA", cardPrivateData);
     return (
         // <div style={{ "minHeight": "100vh" }}>
         <div className="w-full mt-28">

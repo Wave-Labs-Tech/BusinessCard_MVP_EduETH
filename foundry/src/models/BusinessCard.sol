@@ -4,16 +4,16 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import { Card } from "./models/Card.sol";
-import { CardDataInit } from "./models/CardDataInit.sol";
-import { Company } from "./models/Company.sol";
-import { CompanyInit } from "./models/CompanyInit.sol";
-// import { Contact } from "./models/Contact.sol";
-import { Connection } from "./models/Connection.sol";
-import { Id } from "./models/Id.sol";
-import { PublicCard } from "./models/PublicCard.sol";
-import { PrivateInfoCard } from "./models/PrivateInfoCard.sol";
-import { PublicInfoCard } from "./models/PublicInfoCard.sol";
+import { Card } from "./Card.sol";
+import { CardDataInit } from "./CardDataInit.sol";
+import { Company } from "./Company.sol";
+import { CompanyInit } from "./CompanyInit.sol";
+import { Connection } from "./Connection.sol";
+import { ConnectionType } from "./ConnectionType.sol";
+import { Id } from "./Id.sol";
+import { PrivateInfoCard } from "./PrivateInfoCard.sol";
+import { PublicCard } from "./PublicCard.sol";
+import { PublicInfoCard } from "./PublicInfoCard.sol";
 
 /**
  * @title Business Card Contract
@@ -133,11 +133,10 @@ contract BusinessCard is ERC721, Ownable, ERC721URIStorage {
      * @param cardAddress The address associated with the card.
      * @return The private information URL of the card.
      */
-      function getPrivateInfoCard(address cardAddress) public view addressHaveCard(cardAddress) returns(string memory) {
-        require(cardAddress != ZERO_ADDRESS);
+    function getPrivatetInfoCard(address cardAddress) public view addressHaveCard(cardAddress) returns(string memory) {
         uint256 cardId = cards[cardAddress].tokenId;
         // address owner = super.owner();
-        require(isMyContact(cardAddress) || msg.sender == cardAddresses[cardId] || msg.sender == super.owner(), "The address provided does not have access to private data.");
+        require(msg.sender == cardAddresses[cardId] || msg.sender == super.owner(), "The address provided does not have access to private data.");
       
         return cards[cardAddress].privateInfoURL; 
     }

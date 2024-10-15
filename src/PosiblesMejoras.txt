@@ -5,4 +5,8 @@ balance sigue siendo 1, a la hora de comprobarlo para ver si puede
 solicitar conexion eso me engaña.
 
 Añadir boton para cambiar visibilidad en detalles card para Uni.
-No está recibiendo bien los datos para las datos privados desde el contrato. 
+No está recibiendo bien los datos para las datos privados desde el contrato.
+
+-Si se acepta un envio de conexion se muestra este texto en vex de texto que corresponderia: "Has conectado con esa Card. Ahora el receptor debe aceptar la conexión"
+
+-Si entro como universidad no veo los datos privados en cardPage, y eso me paso tambien en otro momento cuando no es universidad

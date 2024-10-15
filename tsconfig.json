@@ -13,7 +13,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
+    /* Permitir archivos JavaScript */
+    "allowJs": true, // Permitir la importación de archivos .js y .jsx
+    "checkJs": false, // No verificar archivos JavaScript
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

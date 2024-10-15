@@ -68,69 +68,42 @@ console.log("userADDRESS", userAddress);
 
   return (
     <div className="w-full fixed top-0 left-0">
-      <nav className="bg-transparent text-white">
-        <ul className='flex items-end justify-between py-3 bg-transparent text-white pr-5'>
-          <li className='flex items-end ml-5 pb-2'>
+      <nav className="bg-transparent text-stone-800">
+        <ul className='flex items-center justify-between py-3 bg-stone-100 text-stone-800 pr-5'>
+          <li className='flex items-end mt-4  ml-5 pb-2  w-fit'>
             <Link to="/">
-              <img src="public/businesscard_logo.png" alt="Business Card Logo" width={180} height={120} className="inline-block -mt-2 rounded-sm" />
+              <img src="public/UAI_logo.png" alt="Business Card Logo" width={180} height={120} className="inline-block -mt-2 rounded-sm" />
               <div className='inline-block font-bold text-xl ml-2'>
                 Card Exhibition
               </div>
             </Link>
           </li>
           <li className='w-2/6'>
-            <ul className='lg:flex justify-between font-bold mr-10 text-lg'>
+            <ul className='lg:flex justify-between font-bold mr-10 text-lg  w-fit'>
               {location.pathname === "/" ?
-                <li className='border-b-2 hover:pb-0 p-2'>
+                <li className='border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                   <Link to="/">Card Exhibition</Link>
                 </li>
                 :
-                <li className='hover:border-b-2 hover:pb-0 p-2'>
+                <li className='hover:border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                   <Link to="/">Card Exhibition</Link>
                 </li>
               }
-              {/* {location.pathname === "/MintCard" ?
-                <li className='border-b-2 hover:pb-0 p-2'>
-                  <Link to="/MintCard">List My Card</Link>
-                </li>
-                :
-                <li className='hover:border-b-2 hover:pb-0 p-2'>
-                  <Link to="/MintCard">List My Card</Link>
-                </li>
-              } */}
-              {/* {location.pathname === "/LastCard" ?
-                <li className='border-b-2 hover:pb-0 p-2'>
-                  <Link to="/LastCard">Last Card</Link>
-                </li>
-                :
-                <li className='hover:border-b-2 hover:pb-0 p-2'>
-                  <Link to="/LastCard">Last Card</Link>
-                </li>
-              } */}
               {location.pathname === "/CardDetails" ?
-                <li className='border-b-2 hover:pb-0 p-2'>
+                <li className='border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                   <Link to="/CardDetails">Card Details</Link>
                 </li>
                 :
-                <li className='hover:border-b-2 hover:pb-0 p-2'>
+                <li className='hover:border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                   <Link to="/CardDetails">Card Details</Link>
                 </li>
               }
-              {/* {location.pathname === "/minter" ?
-                <li className='border-b-2 hover:pb-0 p-2'>
-                  <Link to="/minter">Card Minter</Link>
-                </li>
-                :
-                <li className='hover:border-b-2 hover:pb-0 p-2'>
-                  <Link to="/minter">Card Minter</Link>
-                </li>
-              } */}
               {location.pathname === "/viewer" ?
-                <li className='border-b-2 hover:pb-0 p-2'>
+                <li className='border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                   <Link to="/viewer">Card Viewer</Link>
                 </li>
                 :
-                <li className='hover:border-b-2 hover:pb-0 p-2'>
+                <li className='hover:border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                   <Link to="/viewer">Card Viewer</Link>
                 </li>
               }

@@ -1,9 +1,9 @@
 // ContractContext.js
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 // import { ethers } from 'ethers';
 import { BusinessCardABI } from './assets/abis/BusinessCardABI';
 import { contractAddress } from './assets/constants';
-import { useAccount, usePublicClient, useWalletClient} from 'wagmi';
+import { useAccount } from 'wagmi';
 // import { ConnectToMetamaskOnly } from './utils/ConnectToMetamaskOnly';// type ContractContextType = ethers.Contract | null;
 console.log("contractAddress", contractAddress);
 import { ethers } from "ethers";

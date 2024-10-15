@@ -119,8 +119,8 @@ export default function MintCard() {
     const encryptedPrivateInfo = encryptData(privateInfoJson);
     console.log("Encrypted Data:", encryptedPrivateInfo);
 
-    const decrypted = decryptData(encryptedPrivateInfo); //SOLO TEMPORALMENTE para pruebas
-    console.log("Decrypted Data:", decrypted);
+    // const decrypted = decryptData(encryptedPrivateInfo); //SOLO TEMPORALMENTE para pruebas
+    // console.log("Decrypted Data:", decrypted);
 
     try {
       if (!encryptedPrivateInfo) {

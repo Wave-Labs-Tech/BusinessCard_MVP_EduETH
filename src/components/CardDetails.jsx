@@ -23,6 +23,7 @@ export default function CardDetails() {
     const [cardPrivateData, setCardPrivateData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isBurning, setIsBurning] = useState(false);
+    const [cardAddress, setCardAddress] = useState('0x0');
 
     async function fetchCardData() {
         try {
@@ -57,8 +58,15 @@ export default function CardDetails() {
                     setCardId(cardId.toString());
                     const cardData = await GetCardData(contract, cardId, '0x');
                     setCardData(cardData);
-                    // const cardPrivateData = await contract.getContactInfoCard(userAddress);//FALLA FALLA FALLA 
-                    const privateData = "https://gateway.pinata.cloud/ipfs/QmZYgYkrCvK56rFVetKB5f2fi6Kdeq9ioyishLRVg1wYg8"
+                    let cardAddress = '0x0';
+                    try {
+                        cardAddress = await contract.cardAddresses(cardId);
+                        setCardAddress(cardAddress);
+                    } catch (error) {
+                        console.error("Error al obtener la cardAddress" + error)
+                    }
+                    const privateData = await contract.getPrivatetInfoCard(cardAddress);
+                    // const privateData = "https://gateway.pinata.cloud/ipfs/QmZYgYkrCvK56rFVetKB5f2fi6Kdeq9ioyishLRVg1wYg8"
                     console.log("CARD--PRIVATE--DATA", privateData);
                     const response = await axios.get(privateData);
                     console.log("CARD--PRIVATE--RESPONSE.data", response.data.encryptedData);
@@ -147,6 +155,7 @@ export default function CardDetails() {
             await transaction.wait();
             console.log("transaction", transaction);
             alert("La tarjeta se ha borrado")
+            updateFetched(false); 
         } catch (error) {
             alert("Ha habido un error en el borrado")
             console.error("Ha habido un error en el borrado" + error)
@@ -214,7 +223,7 @@ export default function CardDetails() {
                                     </div>
                                 </div> */}
 
-                                <div className="text-center w-full flex flex-col items-center gap-2">
+                                <div className="text-center text-lg w-full flex flex-col items-center gap-2">
                                     <div className="text-stone-800  text-center w-full flex flex-col items-center rounded-lg shadow-2xl gap-x-2">
                                         <h1 className="bg-stone-100 mt-4 p-2 w-full border-2 border-gray-100 rounded-md shadow-2xl">{cardData?.name}</h1>
                                         {/* <p className="mt-10 py-2 text-white w-full border-2 border-gray-100 rounded-md shadow-2xl">{cardData?.id}</p>                                   */}
@@ -229,21 +238,21 @@ export default function CardDetails() {
                                     <div className="flex mt-4 w-full text-stone-800 items-center">
                                         <h3 className="bg-stone-100 p-2 text-center w-full border-2 border-gray-100 items-center rounded-md shadow-2xl">Datos privados</h3>
                                     </div>
-                                    <div className="flex gap-x-2 text-sm text-stone-800 text-center w-full justify-center rounded-lg shadow-2xl">
+                                    <div className="flex gap-x-2  text-stone-800 text-center w-full justify-center rounded-lg shadow-2xl">
                                         <h2 className="bg-stone-100 p-2 flex-grow border-2 border-gray-100 rounded-md shadow-2xl">{cardPrivateData?.telefono}</h2>
                                     </div>
-                                    <div className="flex gap-x-2 text-sm text-stone-800 text-center w-full justify-center rounded-lg shadow-2xl">
+                                    <div className="flex gap-x-2  text-stone-800 text-center w-full justify-center rounded-lg shadow-2xl">
                                         <h2 className="bg-stone-100 p-2 flex-grow w-fit border-2 border-gray-100 rounded-md shadow-2xl">{cardPrivateData?.email}</h2>
                                     </div>
                                     <div className="flex mt-4 w-full text-stone-800 items-center">
                                         <h3 className="bg-stone-100 p-2 text-center w-full border-2 border-gray-100 items-center rounded-md shadow-2xl">Cuenta y número identificador(ID) de tu Card</h3>
                                     </div>
-                                    <div className="flex gap-x-2 text-sm text-stone-800 text-center w-full justify-center rounded-lg shadow-2xl">
+                                    <div className="flex gap-x-2  text-stone-800 text-center w-full justify-center rounded-lg shadow-2xl">
                                         <h2 className="bg-stone-100 p-2 w-fit border-2 border-gray-100 rounded-md shadow-2xl">{contractAddress}</h2>
                                         <h2 className="bg-stone-100 p-2 flex-grow border-2 border-gray-100 rounded-md shadow-2xl">ID: </h2>
                                         <h2 className="bg-stone-100 p-2 flex-grow w-fit border-2 border-gray-100 rounded-md shadow-2xl">{cardId}</h2>
                                     </div>
-                                    <div className="flex mt-4 gap-2 text-stone-800 text-sm text-center w-fit justify-center rounded-lg shadow-2xl">
+                                    <div className="flex mt-4 gap-2 text-stone-800  text-center w-fit justify-center rounded-lg shadow-2xl">
                                         <h2 className="bg-stone-100 p-2 w-fit border-2 border-gray-100 rounded-md shadow-2xl">Tu cuenta:</h2>
                                         <h2 className="bg-stone-100 p-2 w-fit border-2 border-gray-100 rounded-md shadow-2xl">{userAddress}</h2>
                                     </div>
