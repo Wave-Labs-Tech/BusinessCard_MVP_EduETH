@@ -7,6 +7,7 @@ import CardPage from './components/CardPage';
 // import Minter from './components/Minter';
 import Viewer from './components/Viewer';
 import CardDetails from './components/CardDetails';
+import ContactsDashboard from './components/ContactsDashboard';
 // import ReactDOM from "react-dom/client";
 
 import {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/CardPage/:cardId" element={<CardPage />} />           
           <Route path="/CardDetails" element={<CardDetails />}/>                       
           <Route path="/viewer" element={<Viewer />}/>             
+          <Route path="/ContactsDashboard" element={<ContactsDashboard/>}/>             
         </Routes>
     </div>
   );

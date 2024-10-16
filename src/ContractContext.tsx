@@ -3,9 +3,11 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 // import { ethers } from 'ethers';
 import { BusinessCardABI } from './assets/abis/BusinessCardABI';
 import { contractAddress } from './assets/constants';
-import { useAccount } from 'wagmi';
+import { useAccount, useConfig, useChainId, usePublicClient, useWalletClient, useSwitchChain } from 'wagmi'
+
 // import { ConnectToMetamaskOnly } from './utils/ConnectToMetamaskOnly';// type ContractContextType = ethers.Contract | null;
 console.log("contractAddress", contractAddress);
+
 import { ethers } from "ethers";
 import { useNavigate } from 'react-router-dom';
 
@@ -24,12 +26,16 @@ const ContractContext = createContext<ContractContextType | undefined>(undefined
 
 export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [contract, setContract] = useState<ethers.Contract | null>(null);
-  const { address, isConnected } = useAccount();  // Proporcionado por Wagmi
+  const { address, isConnected } = useAccount(); 
+  // const config = useConfig()
+  const chainId = useChainId() // Proporcionado por Wagmi
   // const provider = usePublicClient();
   const [provider, setProvider] = useState<any>(null);
   const navigate = useNavigate();
   const [userDisconnected, setUserDisconnected] = useState(false); // Estado para manejar desconexión
   const [companyId, setCompanyId] = useState(0);
+  const CORRECT_CHAIN_ID = 421614 // ID de Arbitrum Sepolia
+const { switchChain } = useSwitchChain()
   // let companyId = 0;
 
 useEffect(() => {
@@ -38,6 +44,7 @@ useEffect(() => {
       setUserDisconnected(true);  // Cambiamos el estado global para forzar un rerender
     }else{
       setUserDisconnected(false);
+
     }
   }, [isConnected]);
 
@@ -46,11 +53,18 @@ useEffect(() => {
     if (userDisconnected) {
       navigate('/');  // Redirige a la página principals
     }
+    checkAndSwitchNetwork();
   }, [userDisconnected, navigate]);
+
 
   useEffect(() => {
     const init = async () => { 
-    if (isConnected) {
+      if (isConnected) {
+        if (chainId !== CORRECT_CHAIN_ID) {
+          alert('Por favor, cambia a la red Arbitrum Sepolia')
+          await switchToCorrectNetwork()
+          return
+        }
       const provider = new ethers.BrowserProvider(window.ethereum); 
       setProvider(provider);
 
@@ -72,13 +86,24 @@ useEffect(() => {
     }
   };
   init();
-  }, [isConnected]);
+}, [isConnected,chainId]);
 
-  // const disconnectWallet = () => {
-  //   // La desconexión es manejada por RainbowKit automáticamente, así que solo reseteamos el contrato
-  //   setContract(null);
-  //   setUserDisconnected(true);
-  // };
+  
+
+  const switchToCorrectNetwork = async () => {
+    try {
+      const result = await switchChain({ chainId: CORRECT_CHAIN_ID })
+      console.log('Switched to chain:', result)
+    } catch (error) {
+      console.error('Error al cambiar de red:', error)
+    }
+  }
+  
+    const checkAndSwitchNetwork = async () => {
+      if (isConnected && chainId !== CORRECT_CHAIN_ID) {
+        await switchToCorrectNetwork()
+      }
+    }
 
 console.log("TODOS datos en context: ", contract, address, isConnected, provider, companyId);
   return (
