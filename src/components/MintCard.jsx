@@ -14,7 +14,7 @@ import { ClipLoader } from "react-spinners";
 import LoadingScreen from "./LoadingScreen.jsx";
 
 export default function MintCard() {
-  const { contract, userAddress, provider } = useContract();
+  const { contract, userAddress, provider, companyId } = useContract();
 
   // console.log("Contract", contract);
   // console.log("Provider", provider);
@@ -69,7 +69,7 @@ export default function MintCard() {
     console.log("Datos recibidos UPLOAD:", data, fileURL);
     let cardCid = null;
     let privateInfoCid = null;
-    let _companyId = 1;/////////////////////TEMPORALMENTE/////////////////////////////
+    // let _companyId = 1;/////////////////////TEMPORALMENTE/////////////////////////////
     // console.log("cardId-cardId: ", cardId);
     const { name, position, category, urls, telefono, email } = data;
     // const name = data.name;
@@ -84,12 +84,12 @@ export default function MintCard() {
     console.log("Inic. MINt: fileURL:", fileURL);
     console.log("Inic. MINt: telefono:", data.telefono);
     //Make sure that none of the fields are empty
-    console.log("Todos los valores: ", _companyId, id, name, position, category, urls, telefono, email, fileURL);
+    console.log("Todos los valores: ", companyId, id, name, position, category, urls, telefono, email, fileURL);
     if (!id || !name || !position || !category || !urls || !telefono || !email || !fileURL) {
       updateMessage("Please fill all the fields!")
       return -1;
-    } else if (!_companyId) {
-      updateMessage("Error fetched data from the contract!")
+    } else if (!companyId) {
+      updateMessage("Error fetched companyId from the contract!")
       return -1;
     }
 

@@ -1,1154 +1,1294 @@
 export const BusinessCardABI = [
 	{
+		"type": "constructor",
 		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"stateMutability": "nonpayable"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "ERC721IncorrectOwner",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "operator",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "ERC721InsufficientApproval",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "approver",
-				"type": "address"
-			}
-		],
-		"name": "ERC721InvalidApprover",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "operator",
-				"type": "address"
-			}
-		],
-		"name": "ERC721InvalidOperator",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "ERC721InvalidOwner",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "receiver",
-				"type": "address"
-			}
-		],
-		"name": "ERC721InvalidReceiver",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			}
-		],
-		"name": "ERC721InvalidSender",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "ERC721NonexistentToken",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "OwnableInvalidOwner",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "OwnableUnauthorizedAccount",
-		"type": "error"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "approved",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "Approval",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "operator",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "bool",
-				"name": "approved",
-				"type": "bool"
-			}
-		],
-		"name": "ApprovalForAll",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_fromTokenId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_toTokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "BatchMetadataUpdate",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "cardID",
-				"type": "uint256"
-			}
-		],
-		"name": "CardCreated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "companyAddress",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint16",
-				"name": "companyID",
-				"type": "uint16"
-			}
-		],
-		"name": "CompanyCreated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "MetadataUpdate",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "fromCard_",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "to_",
-				"type": "address"
-			}
-		],
-		"name": "SharedCard",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "Transfer",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
+		"type": "function",
 		"name": "approve",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
+				"name": "to",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"internalType": "uint256"
 			}
 		],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
 		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"name": "owner",
+				"type": "address",
+				"internalType": "address"
 			}
 		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256",
+				"internalType": "uint256"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
 		"name": "cardAddresses",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "tokenURI_",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "privateInfoURL_",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "for_",
-				"type": "address"
+				"name": "",
+				"type": "uint256",
+				"internalType": "uint256"
 			}
 		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
 		"name": "createCardFor",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "publicDataCid",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "privateDataCid",
-						"type": "string"
-					}
-				],
-				"internalType": "struct CompanyInit",
-				"name": "initValues_",
-				"type": "tuple"
+				"name": "tokenURI_",
+				"type": "string",
+				"internalType": "string"
+			},
+			{
+				"name": "privateInfoURL_",
+				"type": "string",
+				"internalType": "string"
+			},
+			{
+				"name": "for_",
+				"type": "address",
+				"internalType": "address"
 			}
 		],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
 		"name": "createCompany",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "publicDataCid",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "privateDataCid",
-						"type": "string"
-					}
-				],
-				"internalType": "struct CompanyInit",
 				"name": "initValues_",
-				"type": "tuple"
-			},
-			{
-				"internalType": "address",
-				"name": "to_",
-				"type": "address"
+				"type": "tuple",
+				"internalType": "struct CompanyInit",
+				"components": [
+					{
+						"name": "companyPhone",
+						"type": "uint64",
+						"internalType": "uint64"
+					},
+					{
+						"name": "companyFoundedYear",
+						"type": "uint16",
+						"internalType": "uint16"
+					},
+					{
+						"name": "companyName",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyLocation",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyWebsite",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyEmail",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyIndustry",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyCeo",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyDescription",
+						"type": "string",
+						"internalType": "string"
+					}
+				]
 			}
 		],
+		"outputs": [],
+		"stateMutability": "payable"
+	},
+	{
+		"type": "function",
 		"name": "createForCompany",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "deleteMyCard",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "getApproved",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "getCardByAddress",
-		"outputs": [
-			{
+				"name": "initValues_",
+				"type": "tuple",
+				"internalType": "struct CompanyInit",
 				"components": [
 					{
-						"internalType": "bool",
-						"name": "exists",
-						"type": "bool"
+						"name": "companyPhone",
+						"type": "uint64",
+						"internalType": "uint64"
 					},
 					{
-						"internalType": "uint32",
-						"name": "companyID",
-						"type": "uint32"
+						"name": "companyFoundedYear",
+						"type": "uint16",
+						"internalType": "uint16"
 					},
 					{
-						"internalType": "uint32",
-						"name": "numberOfContacts",
-						"type": "uint32"
+						"name": "companyName",
+						"type": "string",
+						"internalType": "string"
 					},
 					{
-						"internalType": "uint64",
-						"name": "score",
-						"type": "uint64"
+						"name": "companyLocation",
+						"type": "string",
+						"internalType": "string"
 					},
 					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
+						"name": "companyWebsite",
+						"type": "string",
+						"internalType": "string"
 					},
 					{
-						"internalType": "string",
-						"name": "privateInfoURL",
-						"type": "string"
+						"name": "companyEmail",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyIndustry",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyCeo",
+						"type": "string",
+						"internalType": "string"
+					},
+					{
+						"name": "companyDescription",
+						"type": "string",
+						"internalType": "string"
 					}
-				],
-				"internalType": "struct Card",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner_",
-				"type": "address"
-			}
-		],
-		"name": "getCompanyByOwner",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "bool",
-						"name": "exists",
-						"type": "bool"
-					},
-					{
-						"internalType": "bool",
-						"name": "verified",
-						"type": "bool"
-					},
-					{
-						"internalType": "uint16",
-						"name": "companyEmployees",
-						"type": "uint16"
-					},
-					{
-						"internalType": "uint32",
-						"name": "scoring",
-						"type": "uint32"
-					},
-					{
-						"components": [
-							{
-								"internalType": "string",
-								"name": "publicDataCid",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "privateDataCid",
-								"type": "string"
-							}
-						],
-						"internalType": "struct CompanyInit",
-						"name": "initValues",
-						"type": "tuple"
-					}
-				],
-				"internalType": "struct Company",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "cardOwner",
-				"type": "address"
-			}
-		],
-		"name": "getContactInfoCard",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "card",
-				"type": "address"
-			}
-		],
-		"name": "getContactsQtyByOwner",
-		"outputs": [
-			{
-				"internalType": "uint32",
-				"name": "",
-				"type": "uint32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint16",
-				"name": "id_",
-				"type": "uint16"
-			}
-		],
-		"name": "getEmployedQty",
-		"outputs": [
-			{
-				"internalType": "uint16",
-				"name": "",
-				"type": "uint16"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getMyCard",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "bool",
-						"name": "exists",
-						"type": "bool"
-					},
-					{
-						"internalType": "uint32",
-						"name": "companyID",
-						"type": "uint32"
-					},
-					{
-						"internalType": "uint32",
-						"name": "numberOfContacts",
-						"type": "uint32"
-					},
-					{
-						"internalType": "uint64",
-						"name": "score",
-						"type": "uint64"
-					},
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "privateInfoURL",
-						"type": "string"
-					}
-				],
-				"internalType": "struct Card",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getMyCompany",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "bool",
-						"name": "exists",
-						"type": "bool"
-					},
-					{
-						"internalType": "bool",
-						"name": "verified",
-						"type": "bool"
-					},
-					{
-						"internalType": "uint16",
-						"name": "companyEmployees",
-						"type": "uint16"
-					},
-					{
-						"internalType": "uint32",
-						"name": "scoring",
-						"type": "uint32"
-					},
-					{
-						"components": [
-							{
-								"internalType": "string",
-								"name": "publicDataCid",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "privateDataCid",
-								"type": "string"
-							}
-						],
-						"internalType": "struct CompanyInit",
-						"name": "initValues",
-						"type": "tuple"
-					}
-				],
-				"internalType": "struct Company",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getMyCompanyId",
-		"outputs": [
-			{
-				"internalType": "uint16",
-				"name": "",
-				"type": "uint16"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "cardAddress",
-				"type": "address"
-			}
-		],
-		"name": "getPrivateInfoCard",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getPublicCards",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "tokenURI",
-						"type": "string"
-					}
-				],
-				"internalType": "struct PublicCard[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
+				]
 			},
 			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			}
-		],
-		"name": "hasShared",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "operator",
-				"type": "address"
-			}
-		],
-		"name": "isApprovedForAll",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "c_",
-				"type": "address"
-			}
-		],
-		"name": "isMyContact",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "lastCardId",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "name",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "ownerOf",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "restoreMyCard",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "safeTransferFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes",
-				"name": "",
-				"type": "bytes"
-			}
-		],
-		"name": "safeTransferFrom",
-		"outputs": [],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "operator",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "approved",
-				"type": "bool"
-			}
-		],
-		"name": "setApprovalForAll",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_fee",
-				"type": "uint256"
-			}
-		],
-		"name": "setFeeCreateCompany",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bool",
-				"name": "visibility",
-				"type": "bool"
-			}
-		],
-		"name": "setVisibilityCard",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "to_",
-				"type": "address"
+				"type": "address",
+				"internalType": "address"
 			}
 		],
-		"name": "shareMyCard",
 		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"stateMutability": "nonpayable"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "bytes4",
-				"name": "interfaceId",
-				"type": "bytes4"
-			}
-		],
-		"name": "supportsInterface",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
+		"type": "function",
+		"name": "deleteMyCard",
 		"inputs": [],
-		"name": "symbol",
 		"outputs": [
 			{
-				"internalType": "string",
 				"name": "",
-				"type": "string"
+				"type": "bool",
+				"internalType": "bool"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
+		"stateMutability": "nonpayable"
 	},
 	{
+		"type": "function",
+		"name": "getApproved",
 		"inputs": [
 			{
-				"internalType": "uint256",
 				"name": "tokenId",
-				"type": "uint256"
+				"type": "uint256",
+				"internalType": "uint256"
 			}
 		],
-		"name": "tokenURI",
 		"outputs": [
 			{
-				"internalType": "string",
 				"name": "",
-				"type": "string"
+				"type": "address",
+				"internalType": "address"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
+		"stateMutability": "view"
 	},
 	{
+		"type": "function",
+		"name": "getCardByAddress",
 		"inputs": [
 			{
-				"internalType": "address",
+				"name": "owner_",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "tuple",
+				"internalType": "struct Card",
+				"components": [
+					{
+						"name": "exists",
+						"type": "bool",
+						"internalType": "bool"
+					},
+					{
+						"name": "companyID",
+						"type": "uint32",
+						"internalType": "uint32"
+					},
+					{
+						"name": "numberOfContacts",
+						"type": "uint32",
+						"internalType": "uint32"
+					},
+					{
+						"name": "score",
+						"type": "uint64",
+						"internalType": "uint64"
+					},
+					{
+						"name": "tokenId",
+						"type": "uint256",
+						"internalType": "uint256"
+					},
+					{
+						"name": "privateInfoURL",
+						"type": "string",
+						"internalType": "string"
+					}
+				]
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getCompanyByOwner",
+		"inputs": [
+			{
+				"name": "owner_",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "tuple",
+				"internalType": "struct Company",
+				"components": [
+					{
+						"name": "exists",
+						"type": "bool",
+						"internalType": "bool"
+					},
+					{
+						"name": "verified",
+						"type": "bool",
+						"internalType": "bool"
+					},
+					{
+						"name": "companyEmployees",
+						"type": "uint16",
+						"internalType": "uint16"
+					},
+					{
+						"name": "scoring",
+						"type": "uint32",
+						"internalType": "uint32"
+					},
+					{
+						"name": "initValues",
+						"type": "tuple",
+						"internalType": "struct CompanyInit",
+						"components": [
+							{
+								"name": "companyPhone",
+								"type": "uint64",
+								"internalType": "uint64"
+							},
+							{
+								"name": "companyFoundedYear",
+								"type": "uint16",
+								"internalType": "uint16"
+							},
+							{
+								"name": "companyName",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyLocation",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyWebsite",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyEmail",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyIndustry",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyCeo",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyDescription",
+								"type": "string",
+								"internalType": "string"
+							}
+						]
+					}
+				]
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getContactInfoCard",
+		"inputs": [
+			{
+				"name": "cardOwner",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "string",
+				"internalType": "string"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getContactsQtyByOwner",
+		"inputs": [
+			{
+				"name": "card",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint32",
+				"internalType": "uint32"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getEmployedQty",
+		"inputs": [
+			{
+				"name": "id_",
+				"type": "uint16",
+				"internalType": "uint16"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint16",
+				"internalType": "uint16"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getMyCard",
+		"inputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "tuple",
+				"internalType": "struct Card",
+				"components": [
+					{
+						"name": "exists",
+						"type": "bool",
+						"internalType": "bool"
+					},
+					{
+						"name": "companyID",
+						"type": "uint32",
+						"internalType": "uint32"
+					},
+					{
+						"name": "numberOfContacts",
+						"type": "uint32",
+						"internalType": "uint32"
+					},
+					{
+						"name": "score",
+						"type": "uint64",
+						"internalType": "uint64"
+					},
+					{
+						"name": "tokenId",
+						"type": "uint256",
+						"internalType": "uint256"
+					},
+					{
+						"name": "privateInfoURL",
+						"type": "string",
+						"internalType": "string"
+					}
+				]
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getMyCompany",
+		"inputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "tuple",
+				"internalType": "struct Company",
+				"components": [
+					{
+						"name": "exists",
+						"type": "bool",
+						"internalType": "bool"
+					},
+					{
+						"name": "verified",
+						"type": "bool",
+						"internalType": "bool"
+					},
+					{
+						"name": "companyEmployees",
+						"type": "uint16",
+						"internalType": "uint16"
+					},
+					{
+						"name": "scoring",
+						"type": "uint32",
+						"internalType": "uint32"
+					},
+					{
+						"name": "initValues",
+						"type": "tuple",
+						"internalType": "struct CompanyInit",
+						"components": [
+							{
+								"name": "companyPhone",
+								"type": "uint64",
+								"internalType": "uint64"
+							},
+							{
+								"name": "companyFoundedYear",
+								"type": "uint16",
+								"internalType": "uint16"
+							},
+							{
+								"name": "companyName",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyLocation",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyWebsite",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyEmail",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyIndustry",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyCeo",
+								"type": "string",
+								"internalType": "string"
+							},
+							{
+								"name": "companyDescription",
+								"type": "string",
+								"internalType": "string"
+							}
+						]
+					}
+				]
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getMyCompanyId",
+		"inputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint16",
+				"internalType": "uint16"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getPrivateInfoCard",
+		"inputs": [
+			{
+				"name": "cardAddress",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "string",
+				"internalType": "string"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "getPublicCards",
+		"inputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "tuple[]",
+				"internalType": "struct PublicCard[]",
+				"components": [
+					{
+						"name": "owner",
+						"type": "address",
+						"internalType": "address"
+					},
+					{
+						"name": "tokenURI",
+						"type": "string",
+						"internalType": "string"
+					}
+				]
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "hasShared",
+		"inputs": [
+			{
+				"name": "from",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "to",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool",
+				"internalType": "bool"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "isApprovedForAll",
+		"inputs": [
+			{
 				"name": "owner",
-				"type": "address"
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "operator",
+				"type": "address",
+				"internalType": "address"
 			}
 		],
-		"name": "tokenUriByAddress",
 		"outputs": [
 			{
-				"internalType": "string",
 				"name": "",
-				"type": "string"
+				"type": "bool",
+				"internalType": "bool"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
+		"stateMutability": "view"
 	},
 	{
+		"type": "function",
+		"name": "isMyContact",
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"name": "c_",
+				"type": "address",
+				"internalType": "address"
 			}
 		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool",
+				"internalType": "bool"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "lastCardId",
+		"inputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256",
+				"internalType": "uint256"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "name",
+		"inputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "string",
+				"internalType": "string"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "owner",
+		"inputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "ownerOf",
+		"inputs": [
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"internalType": "uint256"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "renounceOwnership",
+		"inputs": [],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
+		"name": "restoreMyCard",
+		"inputs": [],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
+		"name": "safeTransferFrom",
+		"inputs": [
+			{
+				"name": "from",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "to",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"internalType": "uint256"
+			}
+		],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
+		"name": "safeTransferFrom",
+		"inputs": [
+			{
+				"name": "",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256",
+				"internalType": "uint256"
+			},
+			{
+				"name": "",
+				"type": "bytes",
+				"internalType": "bytes"
+			}
+		],
+		"outputs": [],
+		"stateMutability": "pure"
+	},
+	{
+		"type": "function",
+		"name": "setApprovalForAll",
+		"inputs": [
+			{
+				"name": "operator",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "approved",
+				"type": "bool",
+				"internalType": "bool"
+			}
+		],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
+		"name": "setFeeCreateCompany",
+		"inputs": [
+			{
+				"name": "_fee",
+				"type": "uint256",
+				"internalType": "uint256"
+			}
+		],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
+		"name": "setVisibilityCard",
+		"inputs": [
+			{
+				"name": "visibility",
+				"type": "bool",
+				"internalType": "bool"
+			}
+		],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
+		"name": "shareMyCard",
+		"inputs": [
+			{
+				"name": "to_",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "function",
+		"name": "supportsInterface",
+		"inputs": [
+			{
+				"name": "interfaceId",
+				"type": "bytes4",
+				"internalType": "bytes4"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool",
+				"internalType": "bool"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "symbol",
+		"inputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "string",
+				"internalType": "string"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "tokenURI",
+		"inputs": [
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"internalType": "uint256"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "string",
+				"internalType": "string"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
+		"name": "tokenUriByAddress",
+		"inputs": [
+			{
+				"name": "owner_",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [
+			{
+				"name": "",
+				"type": "string",
+				"internalType": "string"
+			}
+		],
+		"stateMutability": "view"
+	},
+	{
+		"type": "function",
 		"name": "transferFrom",
-		"outputs": [],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
+				"name": "",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256",
+				"internalType": "uint256"
 			}
 		],
-		"name": "transferOwnership",
 		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"stateMutability": "pure"
+	},
+	{
+		"type": "function",
+		"name": "transferOwnership",
+		"inputs": [
+			{
+				"name": "newOwner",
+				"type": "address",
+				"internalType": "address"
+			}
+		],
+		"outputs": [],
+		"stateMutability": "nonpayable"
+	},
+	{
+		"type": "event",
+		"name": "Approval",
+		"inputs": [
+			{
+				"name": "owner",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "approved",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"indexed": true,
+				"internalType": "uint256"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "event",
+		"name": "ApprovalForAll",
+		"inputs": [
+			{
+				"name": "owner",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "operator",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "approved",
+				"type": "bool",
+				"indexed": false,
+				"internalType": "bool"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "event",
+		"name": "BatchMetadataUpdate",
+		"inputs": [
+			{
+				"name": "_fromTokenId",
+				"type": "uint256",
+				"indexed": false,
+				"internalType": "uint256"
+			},
+			{
+				"name": "_toTokenId",
+				"type": "uint256",
+				"indexed": false,
+				"internalType": "uint256"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "event",
+		"name": "CardCreated",
+		"inputs": [
+			{
+				"name": "owner",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "cardID",
+				"type": "uint256",
+				"indexed": false,
+				"internalType": "uint256"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "event",
+		"name": "CompanyCreated",
+		"inputs": [
+			{
+				"name": "companyAddress",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "companyID",
+				"type": "uint16",
+				"indexed": false,
+				"internalType": "uint16"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "event",
+		"name": "MetadataUpdate",
+		"inputs": [
+			{
+				"name": "_tokenId",
+				"type": "uint256",
+				"indexed": false,
+				"internalType": "uint256"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "event",
+		"name": "OwnershipTransferred",
+		"inputs": [
+			{
+				"name": "previousOwner",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "newOwner",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "event",
+		"name": "SharedCard",
+		"inputs": [
+			{
+				"name": "fromCard_",
+				"type": "address",
+				"indexed": false,
+				"internalType": "address"
+			},
+			{
+				"name": "to_",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "event",
+		"name": "Transfer",
+		"inputs": [
+			{
+				"name": "from",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "to",
+				"type": "address",
+				"indexed": true,
+				"internalType": "address"
+			},
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"indexed": true,
+				"internalType": "uint256"
+			}
+		],
+		"anonymous": false
+	},
+	{
+		"type": "error",
+		"name": "ERC721IncorrectOwner",
+		"inputs": [
+			{
+				"name": "sender",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"internalType": "uint256"
+			},
+			{
+				"name": "owner",
+				"type": "address",
+				"internalType": "address"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "ERC721InsufficientApproval",
+		"inputs": [
+			{
+				"name": "operator",
+				"type": "address",
+				"internalType": "address"
+			},
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"internalType": "uint256"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "ERC721InvalidApprover",
+		"inputs": [
+			{
+				"name": "approver",
+				"type": "address",
+				"internalType": "address"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "ERC721InvalidOperator",
+		"inputs": [
+			{
+				"name": "operator",
+				"type": "address",
+				"internalType": "address"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "ERC721InvalidOwner",
+		"inputs": [
+			{
+				"name": "owner",
+				"type": "address",
+				"internalType": "address"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "ERC721InvalidReceiver",
+		"inputs": [
+			{
+				"name": "receiver",
+				"type": "address",
+				"internalType": "address"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "ERC721InvalidSender",
+		"inputs": [
+			{
+				"name": "sender",
+				"type": "address",
+				"internalType": "address"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "ERC721NonexistentToken",
+		"inputs": [
+			{
+				"name": "tokenId",
+				"type": "uint256",
+				"internalType": "uint256"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "OwnableInvalidOwner",
+		"inputs": [
+			{
+				"name": "owner",
+				"type": "address",
+				"internalType": "address"
+			}
+		]
+	},
+	{
+		"type": "error",
+		"name": "OwnableUnauthorizedAccount",
+		"inputs": [
+			{
+				"name": "account",
+				"type": "address",
+				"internalType": "address"
+			}
+		]
 	}
 ]

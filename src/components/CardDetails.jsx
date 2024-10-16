@@ -13,11 +13,11 @@ import { contractAddress } from "../assets/constants";
 import LoadingScreen from "./LoadingScreen.jsx";
 
 export default function CardDetails() {
-    const { contract, userAddress, isConnected } = useContract();
+    const { contract, userAddress, isConnected, companyId } = useContract();
 
     const [cardId, setCardId] = useState(null);
     const [isCard, setIsCard] = useState(false);
-    const [companyId, setCompanyId] = useState(null);
+    // const [companyId, setCompanyId] = useState(null);
     const [dataFetched, updateFetched] = useState(false);
     const [cardData, setCardData] = useState(null);
     const [cardPrivateData, setCardPrivateData] = useState(null);
@@ -35,15 +35,15 @@ export default function CardDetails() {
             // const uriByAddress = await contract.tokenUriByAddress(userAddress);
             // console.log("!!!!!!!!!!UriByAddress", uriByAddress);
             console.log("ADDRESS123", userAddress)
-            let companyId;
-            try {
-                companyId = await contract.getMyCompanyId();
-                console.log("MyCompanyId", companyId);
-                console.log("MyCompanyId para esta address", companyId, userAddress);
-                setCompanyId(companyId);
-            } catch (error) {
-                console.log("Error al obtener el companyId", error);
-            }
+            // let companyId;
+            // try {
+            //     companyId = await contract.getMyCompanyId();
+            //     console.log("MyCompanyId", companyId);
+            //     console.log("MyCompanyId para esta address", companyId, userAddress);
+            //     setCompanyId(companyId);
+            // } catch (error) {
+            //     console.log("Error al obtener el companyId", error);
+            // }
             if (companyId) return;
 
             try {
@@ -65,7 +65,7 @@ export default function CardDetails() {
                     } catch (error) {
                         console.error("Error al obtener la cardAddress" + error)
                     }
-                    const privateData = await contract.getPrivatetInfoCard(cardAddress);
+                    const privateData = await contract.getPrivateInfoCard(cardAddress);
                     // const privateData = "https://gateway.pinata.cloud/ipfs/QmZYgYkrCvK56rFVetKB5f2fi6Kdeq9ioyishLRVg1wYg8"
                     console.log("CARD--PRIVATE--DATA", privateData);
                     const response = await axios.get(privateData);

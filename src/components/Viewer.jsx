@@ -81,7 +81,7 @@ function NFTViewer() {
   return (
     <>
       <Navbar></Navbar>
-      <div className="flex flex-col items-center p-12 w-full mx-auto mt-20 text-white space-y-8">
+      <div className="flex flex-col items-center p-12 w-full mt-20 text-white space-y-8">
         <h1 className="text-3xl font-bold">VISOR DE CARDs</h1>
         <div className="flex w-full ">
           {/* <input
@@ -108,9 +108,9 @@ function NFTViewer() {
        <div className="mt-4 text-stone-800 text-center w-full rounded-lg shadow-2xl">
        <div className="flex flex-row mt-4 gap-2 text-stone-800 text-center w-full rounded-lg shadow-2xl">
 
-            <p className="bg-stone-100 py-2 w-4/5 rounded-md shadow-2xl">Número de la tarjeta</p>
+            <p className="bg-stone-100 py-2 px-20 w-full rounded-md shadow-2xl text-xl">Número de la tarjeta</p>
             <input
-              className="bg-stone-100 py-2 max-w-fit w-1/5 text-right pr-2 rounded-md shadow-2xl"
+              className="bg-stone-100 py-2 w-1/5 text-right text-xl pr-2 rounded-md shadow-2xl"
               type="number"
               placeholder="0"
               value={tokenId}
@@ -125,8 +125,9 @@ function NFTViewer() {
           onClick={fetchCardData} disabled={!tokenId}>
           Visualizar tarjeta
         </button>
-        {cardData && <div className="text-center w-full  flex flex-col items-center gap-2">
-          <CardDataComponent id={tokenId} loadingText="Solicitando la conexión" />
+        {cardData && <div className="text-center w-full  flex justify-between items-center gap-2">
+          <CardDataComponent id={tokenId} loadingText="Solicitando la conexión" className="w-full 
+          "/>
           {/* <img src={cardData?.image} alt={cardData?.name} className="max-w-full h-auto rounded-lg border-2 border-gray-100" />
           <div className="text-stone-800  text-center w-full flex flex-col items-center rounded-lg shadow-2xl gap-2">
             <h1 className="bg-stone-100 mt-4 py-2 w-full border-2 border-gray-100 rounded-md shadow-2xl">{cardData?.name}</h1> */}

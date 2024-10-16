@@ -555,7 +555,7 @@ export const BusinessCardABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "cardAddresses",
+		"name": "cardIds",
 		"outputs": [
 			{
 				"internalType": "address",

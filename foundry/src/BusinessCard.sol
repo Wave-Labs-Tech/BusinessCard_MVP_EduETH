@@ -8,7 +8,7 @@ import { Card } from "./models/Card.sol";
 import { CardDataInit } from "./models/CardDataInit.sol";
 import { Company } from "./models/Company.sol";
 import { CompanyInit } from "./models/CompanyInit.sol";
-// import { Contact } from "./models/Contact.sol";
+import { ConnectionType } from "./enums/ConnectionType.sol";
 import { Connection } from "./models/Connection.sol";
 import { Id } from "./models/Id.sol";
 import { PublicCard } from "./models/PublicCard.sol";
@@ -103,9 +103,9 @@ contract BusinessCard is ERC721, Ownable, ERC721URIStorage {
         return super.tokenURI(tokenId);
     }
 
-    function tokenUriByAddress(address owner) public view returns(string memory) {
-        require(cards[owner].exists, "The address provided does not have any associated card.");
-        return tokenURI(cards[owner].tokenId);
+    function tokenUriByAddress(address owner_) public view returns(string memory) {
+        require(cards[owner_].exists, "The address provided does not have any associated card.");
+        return tokenURI(cards[owner_].tokenId);
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721URIStorage) returns (bool) {
@@ -134,10 +134,9 @@ contract BusinessCard is ERC721, Ownable, ERC721URIStorage {
      * @return The private information URL of the card.
      */
       function getPrivateInfoCard(address cardAddress) public view addressHaveCard(cardAddress) returns(string memory) {
-        require(cardAddress != ZERO_ADDRESS);
         uint256 cardId = cards[cardAddress].tokenId;
         // address owner = super.owner();
-        require(isMyContact(cardAddress) || msg.sender == cardAddresses[cardId] || msg.sender == super.owner(), "The address provided does not have access to private data.");
+        require(msg.sender == cardAddresses[cardId] || msg.sender == super.owner() || isMyContact(cardAddress), "The address provided does not have access to private data.");
       
         return cards[cardAddress].privateInfoURL; 
     }
@@ -145,11 +144,11 @@ contract BusinessCard is ERC721, Ownable, ERC721URIStorage {
     /**
      * @notice Retrieves the complete business card of a specified address.
      * @dev Requires that the address has a business card associated with it.
-     * @param owner The address of the card owner whose business card will be retrieved.
+     * @param owner_ The address of the card owner whose business card will be retrieved.
      * @return The complete business card information of the owner.
      */
-    function getCardByAddress(address owner) public view addressHaveCard(owner) returns(Card memory) {
-        return cards[owner];
+    function getCardByAddress(address owner_) public view addressHaveCard(owner_) returns(Card memory) {
+        return cards[owner_];
     }
     
     /**

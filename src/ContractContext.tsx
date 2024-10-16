@@ -17,7 +17,7 @@ interface ContractContextType {
   isConnected: boolean;
   provider: any | null;
   companyId: number | null;
-  disconnectWallet: () => void;
+  // disconnectWallet: () => void;
 }
 
 const ContractContext = createContext<ContractContextType | undefined>(undefined);
@@ -51,7 +51,7 @@ useEffect(() => {
   useEffect(() => {
     const init = async () => { 
     if (isConnected) {
-      const provider = new ethers.BrowserProvider(window.ethereum); // Correcto para ethers v6
+      const provider = new ethers.BrowserProvider(window.ethereum); 
       setProvider(provider);
 
       const signer = await provider.getSigner();
@@ -61,7 +61,7 @@ useEffect(() => {
 
     try {
         const companyId = await _contract.getMyCompanyId();
-        setCompanyId(companyId);
+        setCompanyId(parseInt(companyId.toString()));
     } catch (error) {
         console.error("Error al obtener el companyId" + error)
     }
@@ -74,15 +74,16 @@ useEffect(() => {
   init();
   }, [isConnected]);
 
-  const disconnectWallet = () => {
-    // La desconexión es manejada por RainbowKit automáticamente, así que solo reseteamos el contrato
-    setContract(null);
-    setUserDisconnected(true);
-  };
+  // const disconnectWallet = () => {
+  //   // La desconexión es manejada por RainbowKit automáticamente, así que solo reseteamos el contrato
+  //   setContract(null);
+  //   setUserDisconnected(true);
+  // };
 
-console.log("TODOS datos en context: ", contract, address, isConnected, provider)
+console.log("TODOS datos en context: ", contract, address, isConnected, provider, companyId);
   return (
-    <ContractContext.Provider value={{ contract, userAddress: address || null, isConnected, provider, companyId, disconnectWallet }}>
+    // <ContractContext.Provider value={{ contract, userAddress: address || null, isConnected, provider, companyId, disconnectWallet }}>
+    <ContractContext.Provider value={{ contract, userAddress: address || null, isConnected, provider, companyId }}>
       {children}
     </ContractContext.Provider>
   );

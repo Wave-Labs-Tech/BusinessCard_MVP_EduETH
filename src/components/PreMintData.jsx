@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 
 
 const PreMintData = ({setCardId}) => {
-    const { contract, userAddress, provider } = useContract();
+    const { contract, userAddress, provider, companyId } = useContract();
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +16,7 @@ const PreMintData = ({setCardId}) => {
     const [message, updateMessage] = useState('');
     // const [cardId, setCardId] = useState<number | null>(null);
     const [lastCardId, setLastCardId] = useState(null);
-    const [companyId, setCompanyId] = useState(null);
+    // const [companyId, setCompanyId] = useState(null);
     const [owner, setOwner] = useState(null);
     const [network, setNetwork] = useState('');
 
@@ -64,7 +64,7 @@ const PreMintData = ({setCardId}) => {
                 setOwner(owner);
 
                 console.log("Address PREVIO CompanyId MintCard", userAddress);
-                const companyId = await contract.getMyCompanyId();
+                // const companyId = await contract.getMyCompanyId();
                 console.log("Respuesta directa CompanyId", companyId);
                 if (companyId) {
                     setCompanyId("Universidad Adolfo Ibáñez");

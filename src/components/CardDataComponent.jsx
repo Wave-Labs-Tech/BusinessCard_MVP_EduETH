@@ -7,10 +7,10 @@ import Navbar from "./Navbar.jsx";
 import LoadingScreen from "./LoadingScreen.jsx";
 import { GetIpfsUrlFromPinata } from "../utils/Pinata";
 import { contractAddress } from "../assets/constants";
+import { toast } from "react-toastify";
 
 
-//FALLA CUANDO LA USA LA UNI, a causa de que no tiene card
-//en linea 46 no consigue cardAddress
+//FALLA CUANDO LA USA LA UNI a la hora de mostrar datos privados, necesario nuevo despliegue.
 
 
 export const CardDataComponent = ({ id, loadingText }) => {
@@ -36,20 +36,12 @@ export const CardDataComponent = ({ id, loadingText }) => {
             console.error("Error: ID no está definido.");
             return null; // O renderiza algún mensaje de error o componente de carga
         }
+
         let contact = false;
-        console.log("contract!!! ETC", userAddress, isConnected, contract);
+
         try {
-            // const ethers = require("ethers");
             let meta;
-            console.log("ID_ID.", id);
-            // var tokenURI = await contract.tokenURI(tokenId);
-            // let tokenURI = await contract.tokenUriByAddress("0xc7873b6ee9d6ef0ac02d5d1cef98abeea01e29e2");
-            // try {
-            //     companyId = await contract.getMyCompanyId();
-            //     setCompanyId(companyId);
-            // } catch (error) {
-            //     console.error("Error al obtener el companyId" + error)
-            // }
+    
             let cardAddress = '0x0';
             try {
                 cardAddress = await contract.cardAddresses(parseInt(id));
@@ -57,13 +49,9 @@ export const CardDataComponent = ({ id, loadingText }) => {
             } catch (error2) {
                 console.error("Error al obtener la cardAddress - " + error2)
             }
-            console.log("COMPANY-ID", companyId);
-            console.log("Card-ADDRESS", cardAddress);
+
             const tokenBalance = await contract.balanceOf(cardAddress);
             setBalance(parseInt(tokenBalance.toString()));
-            console.log("!!!!!!!!!!tokenBalance", tokenBalance.toString());
-            // console.log("!!!!!!!!!!cardAddress", cardAddress);
-            // let tokenURI = await contract.tokenUriByAddress(cardAddress);
             try {
                 meta = await GetCardData(contract, 0, cardAddress);//Funciona bien para address dueña de Card
             } catch (error) {
@@ -71,53 +59,36 @@ export const CardDataComponent = ({ id, loadingText }) => {
             }
             // if (parseInt(parseInt(tokenBalance.toString())) > 0 && companyId < 1) {
             if (parseInt(tokenBalance.toString()) > 0 && !companyId) {
-                // console.log("!!!!!!!!!!tokenURI", tokenURI);
-                console.log("!!!!!!!!!!Balance??", parseInt(tokenBalance.toString()) > 0);
-                console.log("!!!!!!!!!!Balance", parseInt(tokenBalance.toString()));
                 
                 const shared = await contract.hasShared(userAddress, cardAddress);
-                console.log("Se he enviado share", shared);
                 setIsSended(shared);
 
-                console.log("meta para AJENA", meta);
-                console.log("meta.name", meta.name);
-                console.log("meta.image", meta.image);
                 const sharedWithMe = await contract.hasShared(cardAddress, userAddress);
+                setIsShared(sharedWithMe);
 
-                // const isSended2 = await contract.contacts(cardAddress, userAddress);
-                console.log("Se ha recibido share", sharedWithMe);
-                // console.log("Se ha recibido share2", isSended2);
-                if (sharedWithMe) setIsShared(true);
-                
                 contact = await contract.isMyContact(cardAddress);
-                // return contact
-                console.log("Is contact??", contact);
                 if (contact) setIsContact(true);
             }
-            
-            console.log("Comprobar CompanyID", companyId);
+
             if (contact || companyId > 0) {
                 try {
-                    const privateData = await contract.getPrivatetInfoCard(cardAddress);
+                    let privateData;
+                    try {
+                        privateData = await contract.getPrivateInfoCard(cardAddress);
+                    } catch (error) {
+                        console.error("Error al recuperar datos privados " + error)
+                        alert("No tienes acceso a los datos privados");
+                    }
                     // const privateData = "https://gateway.pinata.cloud/ipfs/QmZYgYkrCvK56rFVetKB5f2fi6Kdeq9ioyishLRVg1wYg8"
-                    console.log("CARD--PRIVATE--DATA", privateData);
                     const response = await axios.get(privateData);
-                    console.log("CARD--PRIVATE--RESPONSE.data", response.data.encryptedData);
                     const cardPrivateData = decryptData(response.data.encryptedData);
-                    console.log("CARD--PRIVATE--DECRIP", cardPrivateData);
-                    console.log("CARD--PRIVATE--DECRIP.tel", cardPrivateData.telefono);
-                    console.log("CARD--PRIVATE--DECRIP.eml", cardPrivateData.email);
                     setCardPrivateData(cardPrivateData);
                 } catch (error) {
-                    console.error("Error al recuperar datos privados" + error)
+                    console.error("Error al recuperar datos privados " + error)
                 }
 
 
             }
-
-
-
-            console.log("meta", meta);
 
             let item = {
                 id: meta.id,
@@ -127,12 +98,9 @@ export const CardDataComponent = ({ id, loadingText }) => {
                 urls: meta.urls,
                 image: meta.image
             }
-            console.log(item);
             updateData(item);
             updateDataFetched(true);
-            console.log("userAddress, cardAddress", userAddress, cardAddress)
         } catch (error) {
-            console.error("Error en getCardData:", error);
             updateData(null);
             updateDataFetched(true);
         }
@@ -156,12 +124,12 @@ export const CardDataComponent = ({ id, loadingText }) => {
         try {
             const transaction = await contract.shareMyCard(cardAddress);  // Se inicia la transacción
             await transaction.wait();  // Se espera la confirmación en blockchain
-            alert("Has conectado con esa Card. Ahora el receptor debe aceptar la conexión");
+            alert("Has enviado solicitud de conexión a esa tarjeta");
+            toast("Has enviado solicitud de conexión a esa tarjeta");
             fetchData();
         } catch (error) {
-            alert("Error compartiendo la tarjeta");
-            alert("Error compartiendo la tarjeta " + error);
-            console.error("Error compartiendo la tarjeta", error)
+            alert("Error solicitando conexión a la tarjeta");
+            console.error("Error compartiendo la tarjeta " + error)
         } finally {
             setIsLoading(false);
         }
@@ -179,7 +147,7 @@ export const CardDataComponent = ({ id, loadingText }) => {
     }
 
     if (!dataFetched) {
-        return <div>Cargando...</div>;
+        return <div className="bg-stone-100 py-2 px-24 m-auto text-stone-800 text-3xl text-center rounded-md shadow-2xl min-h-[50px]">Cargando...</div>;
     }
 
     // if (!data) {
@@ -193,12 +161,11 @@ export const CardDataComponent = ({ id, loadingText }) => {
     if (isLoading) {
         <LoadingScreen loadingText={loadingText} />
     }
-console.log("CARD private DATA", cardPrivateData);
+    console.log("CARD private DATA", cardPrivateData);
     return (
         // <div style={{ "minHeight": "100vh" }}>
         <div className="w-full mt-28">
             <Navbar></Navbar>
-            {/* Renderiza mensaje especial si es el propietario */}
             <div>
                 <div className="flex justify-center mt-4">
                     {cardAddress?.toLowerCase() === userAddress?.toLowerCase() ? (
@@ -212,50 +179,50 @@ console.log("CARD private DATA", cardPrivateData);
                     )}
                 </div>
             </div>
-            <div className="w-full flex justify-center mb-12" >
-                {/* <img src={data?.image} alt="" className="w-2/5" /> */}
-                <img src={data?.image} alt="" className="w-3/5 md:full rounded-lg" />
-                {/* <div className="text-xl ml-20 space-y-8 text-white shadow-2xl rounded-lg border-2 p-5"> */}
-                <div className="text-xl break-word md:mx-20 mt-8  bg-blue-900 bg-opacity-70  space-y-8 text-white shadow-2xl rounded-lg border-2 p-12 w-4/5 md:w-3/5 overflow-auto" >
+            <div className="container mx-auto px-4"></div>
+            {/* <div className="w-full flex flex-col lg:flex-row justify-between bg-red-300 mb-12 p-4 gap-4"> */}
+            <div className="w-full flex flex-col lg:flex-row justify-between p-6 gap-8 ">
+                {/* <div className="w-full lg:w-1/2 flex justify-center md:justify-start"> */}
+                <div className="w-full lg:w-auto lg:flex-shrink-0">
+                    <img
+                        src={data?.image}
+                        alt=""
+                        //   className="w-full max-w-md lg:max-w-lg xl:max-w-xl rounded-lg object-contain"    />
+                        //   className="w-full h-auto max-h-[800px] rounded-lg object-contain"/>
+                        className="w-full lg:w-[500px] h-auto max-h-[800px] rounded-lg object-contain" />
+                </div>
+                {/* <div className="w-full lg:w-1/2 text-xl space-y-6 text-white shadow-2xl rounded-lg border-2 p-6 bg-blue-900 bg-opacity-70 overflow-auto"> */}
+                <div className="w-full h-fit my-auto lg:flex-grow text-xl space-y-6 text-white shadow-2xl rounded-lg border-2 p-6 bg-blue-900 bg-opacity-70 overflow-auto">
                     <div>
                         <h2 className="text-center bg-stone-100 p-2 flex-grow w-full text-stone-800 rounded-md shadow-2xl">
-                            ID: {data?.id.toString() ? data.id.toString()  : ''}
+                            ID: {data?.id.toString() ? data.id.toString() : ''}
                         </h2>
                     </div>
                     <div className="flex justify-center gap-x-2 text-stone-800 text-center w-full rounded-md shadow-2xl">
-                        <h2 className="bg-stone-100 p-2 flex-grow w-fit rounded-md shadow-2xl">
+                        {/* <h2 className="bg-stone-100 p-2 flex-grow w-fit rounded-md shadow-2xl"> */}
+                        <h2 className="bg-stone-100 py-2 px-20 w-full rounded-md shadow-2xl">
                             {data?.name}
                         </h2>
                     </div>
                     <div className="flex justify-center gap-x-2 text-stone-800 text-center w-full rounded-md shadow-2xl">
-                        <h2 className="bg-stone-100 p-2 flex-grow w-fit rounded-md shadow-2xl">
+                        {/* <h2 className="bg-stone-100 p-2 flex-grow w-fit rounded-md shadow-2xl"> */}
+                        <h2 className="bg-stone-100 py-2 px-20 w-full rounded-md shadow-2xl">
                             {data?.position}
                         </h2>
                     </div>
                     <div className="flex justify-center gap-x-2 text-stone-800 text-center w-full rounded-md shadow-2xl">
-                        <h2 className="bg-stone-100 p-2 flex-grow w-fit rounded-md shadow-2xl">
+                        {/* <h2 className="bg-stone-100 p-2 flex-grow w-fit rounded-md shadow-2xl"> */}
+                        <h2 className="bg-stone-100 py-2 px-20 w-full rounded-md shadow-2xl">
                             {data?.category}
                         </h2>
                     </div>
                     <div className="flex justify-center  gap-x-2 text-stone-800 text-center w-full rounded-md shadow-2xl">
-                        <h2 className="bg-stone-100 p-2 flex-grow w-fit rounded-md shadow-2xl">
+                        {/* <h2 className="bg-stone-100 p-2 flex-grow w-fit rounded-md shadow-2xl"> */}
+                        <h2 className="bg-stone-100 py-2 px-20 w-full rounded-md shadow-2xl">
                             {data?.urls}
                         </h2>
                     </div>
                     <div>
-                        {/* {currAddress !== data.owner && currAddress !== data?.seller?
-                        <button className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" onClick={() => buyNFT(tokenId)}>Buy this NFT</button>
-                        : <div className="text-emerald-700">You are the owner of this NFT</div>
-                    } */}
-
-                        {/* {accounts.length > 0 ?
-                        currAddress === data.seller || currAddress === data.owner ?
-                            <div className="text-white">You are the owner of this NFT</div>
-                            // : <button className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" onClick={() => buyNFT(tokenId)}>Buy this NFT</button>
-                            : <button className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" >Buy this NFT</button>
-                        : <div className="text-red-400">Please connect your wallet to buy this NFT</div>
-                    } */}
-
                     </div>
                     {userAddress?.toLowerCase() !== cardAddress?.toLowerCase() && balance && <div className="flex flex-col text-center items-center mt-11 text-white">
                         {isContact || companyId ? (
@@ -306,9 +273,9 @@ console.log("CARD private DATA", cardPrivateData);
                             {contractAddress ? contractAddress : ''}
                         </h2>
                         <h2 className="bg-stone-100 py-3 px-4 rounded-md shadow-2xl min-h-[50px]">
-                        {data?.id ? data.id.toString() : ''}
+                            {data?.id ? data.id.toString() : ''}
                         </h2>
-                    </div>                            
+                    </div>
                     <div className="flex mt-4 mb-12 gap-x-2 text-stone-800 text-center w-full justify-center items-center rounded-lg shadow-2xl">
                         <h2 className="bg-stone-100 py-3 px-12 w-fit rounded-md shadow-2xl ">Cuenta del dueño de la Card:</h2>
                         <h2 className="bg-stone-100 py-3 flex-grow rounded-md shadow-2xl">{cardAddress ? cardAddress : ''}</h2>

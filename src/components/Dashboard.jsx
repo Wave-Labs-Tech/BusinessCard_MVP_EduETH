@@ -7,12 +7,12 @@ import { useState, useEffect } from "react";
 import { useContract } from '../ContractContext';
 
 export default function Dashboard({ reverse = false }) {
-  const { contract, userAddress, isConnected } = useContract();
+  const { contract, userAddress, isConnected, companyId } = useContract();
   const [data,] = useState([]);
   const [, setLoading] = useState(true);
   const [cardData, setCardData] = useState([]);
   // const [, setUserTokenURI] = useState('');
-  const [companyId, setCompanyId] = useState(null);
+  // const [companyId, setCompanyId] = useState(null);
   // const [isUniversityCompanyCreated, setIsUniversityCompanyCreated] = useState(false);
   const [cardAddress, setCardAddress] = useState("0x0");
 
@@ -51,20 +51,7 @@ export default function Dashboard({ reverse = false }) {
         //   console.error("Error obteniendo el id de la ultima card" + err);
         // }
 
-        // const uri0 = await contract.tokenURI(0);
-        // console.log("URI", uri0); 
-        // for(let i = 1; i > 3; i++){
-        //   const uri = await contract.tokenURI(i);
-        //   console.log("URI", uri); 
-        // }
-        let companyId = 0;
-        try {
-          companyId = await contract.getMyCompanyId();
-          setCompanyId(parseInt(companyId.toString()));
-          console.log("Company ID obtenido:", parseInt(companyId.toString())); 
-        } catch (error) {
-          console.log("Error al obtener el companyId", error);
-        }
+        // if(companyId) return;
           // try {
           //   let tokenURI = await contract.tokenUriByAddress(userAddress);
           //   setUserTokenURI(tokenURI);
