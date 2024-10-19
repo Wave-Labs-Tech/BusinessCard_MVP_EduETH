@@ -9,7 +9,7 @@ import { CardDataInit } from "./CardDataInit.sol";
 import { Company } from "./Company.sol";
 import { CompanyInit } from "./CompanyInit.sol";
 import { Connection } from "./Connection.sol";
-import { ConnectionType } from "./ConnectionType.sol";
+import { ConnectionType } from "../enums/ConnectionType.sol";
 import { Id } from "./Id.sol";
 import { PrivateInfoCard } from "./PrivateInfoCard.sol";
 import { PublicCard } from "./PublicCard.sol";
@@ -137,7 +137,6 @@ contract BusinessCard is ERC721, Ownable, ERC721URIStorage {
         uint256 cardId = cards[cardAddress].tokenId;
         // address owner = super.owner();
         require(msg.sender == cardAddresses[cardId] || msg.sender == super.owner(), "The address provided does not have access to private data.");
-      
         return cards[cardAddress].privateInfoURL; 
     }
 

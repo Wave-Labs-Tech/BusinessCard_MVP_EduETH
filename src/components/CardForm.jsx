@@ -83,8 +83,31 @@ const CardForm = ({ onSubmit }) => {
                 console.log("URL imagen comprimida:", compressedUrl);
 
                 updateMessage("Uploading image.. please dont click anything!")
+                const temporaryImages = ['https://gateway.pinata.cloud/ipfs/Qma8W5dmpk5d6Xyy5w8EQHx4aSzGNzjhZuzRTsud5aNmkS',
+                    'https://gateway.pinata.cloud/ipfs/QmSG6es91eYZ8KywV9EtT2uhFd2UQ4JN48by3RhYnpRZqv',
+                    'https://gateway.pinata.cloud/ipfs/QmWPH43An56Vg3pd2fT5EsCyajShnpNLdYyfbz7CYst5uM',
+                    'https://gateway.pinata.cloud/ipfs/QmUo1xrTmjgLgYygpMujFtSAWxPeE9MVDfY4M1XazdnBLM',
+                    'https://gateway.pinata.cloud/ipfs/QmR8U1CvdGQnepYnPDAdtHMXgtjYm31Bh9dyigFKNWUCb4',
+                    'https://gateway.pinata.cloud/ipfs/QmV3L5bgb92Dz6CwvZnXC2BcBe4Wc5dHvpz3ijuQBBvJC8',
+                    'https://gateway.pinata.cloud/ipfs/QmSN6zAp8epckPMpFaYnsK7SWfKuwLmEm5pJkoVaLmzUXK',
+                    'https://gateway.pinata.cloud/ipfs/Qmc4U7DLuRF2gCeoAKbnFLbA1JUQHCfZpcteX13duXe2wH',
+                    'https://gateway.pinata.cloud/ipfs/QmNpmDoCFEvoSGgXzL2TqrsuFYe7B8RY2VLn1cKhQXjVLp',
+                    'https://gateway.pinata.cloud/ipfs/QmTyDuH5Rz3PsGUCLCnRDhLU1g9oVXZNkZXYc6jWCHHAJg'
+                ]
+                // let imageNum = 0;
+                let imageNum = parseInt(localStorage.getItem('imageNum')) || 0;
                 if (file) {
-                      const response = await uploadFileToIPFS(compressedImage);//DESACTIVADO durante el desarrollo
+                    const response = {
+                        success: true,
+                        pinataURL: temporaryImages[imageNum]
+                    };
+                    imageNum++;
+                    if(imageNum >= temporaryImages.length) imageNum = 0;
+                    // imageNum = (++imageNum) % temporaryImages.length;
+                    localStorage.setItem('imageNum', imageNum);
+
+                   
+                    //   const response = await uploadFileToIPFS(compressedImage);//DESACTIVADO durante el desarrollo
                     // const response = {
                     //     success: true,
                     //     // pinataURL: "https://gateway.pinata.cloud/ipfs/QmSRkTj5rrUUJcPPFcVrRMgdKKtdikkgZ4igVLe6i3dNXy",

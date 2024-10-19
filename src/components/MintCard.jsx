@@ -12,6 +12,7 @@ import { encryptData, decryptData } from "../utils/Crypto";
 import { useContract } from '../ContractContext';
 import { ClipLoader } from "react-spinners";
 import LoadingScreen from "./LoadingScreen.jsx";
+import { toast } from "react-toastify";
 
 export default function MintCard() {
   const { contract, userAddress, provider, companyId } = useContract();
@@ -96,15 +97,33 @@ export default function MintCard() {
     const cardJSON = {
       id ,name, position, category, urls, image: fileURL
     }
+    const temporaryCids = [
+      'https://gateway.pinata.cloud/ipfs/QmWCPpcWc5nd5yfpmhWrRkqud8xenCYtda6nADanMuedMr',
+      'https://gateway.pinata.cloud/ipfs/QmZwZtRfz2kBT1Frd8RRfgrmDAGJRzCvYiSNd6zN14HSvu',
+      'https://gateway.pinata.cloud/ipfs/QmXxn4YUH6MaPQgZ5vr28tJy5UCPfvKJZm6zvfr8WVat24',
+      'https://gateway.pinata.cloud/ipfs/QmVMPD4aMRRPH8QsY2vYDy9Wqi6xj2E8JMxDkLR6otiq84',
+      'https://gateway.pinata.cloud/ipfs/QmaoqrXkoQAsjjDL4ttr1aQb2QurkHY3ZaqcJhjQtmQBKx',
+      'https://gateway.pinata.cloud/ipfs/QmWsQhr4kreDbHp4oCquuKAEVeFRV7vV3esSKhvZBc3HkQ',
+      'https://gateway.pinata.cloud/ipfs/QmcVEPJHH2hnzDAGbf7DQEkyEoi3uN4G22iDpn1tiHB9ZK',
+      'https://gateway.pinata.cloud/ipfs/QmUPcYPa5BhWDJ8crx3pFbitwQfCccnB1SLbfKoPqogTXE',
+      'https://gateway.pinata.cloud/ipfs/QmcJFw79QdG4cFz3VP4acZ6kDNgpeqr9KWDxGaWGuB9KLj',
+      'https://gateway.pinata.cloud/ipfs/QmeHbwXgfFt5Ev7fssBZnTnwD8ihE6mUKrVdAreSfXD5sk'
+    ];
+    // let cidsNum = 0;
+    //será 0 si se cambia de navegador
+    let cidsNum = parseInt(localStorage.getItem('cidsNum')) || 0;
     try {
       //upload the metadata JSON to IPFS
-      const cardResponse = await uploadJSONToIPFS(cardJSON);//TEMPORALMENTE DESACTIVADA DURANTE EL DESARROLLO
+      // const cardResponse = { success: true, pinataURL: temporaryCids[cidsNum] };
+      // cidsNum++;
+      // if(cidsNum >= temporaryCids.length) cidsNum = 0;
+      // localStorage.setItem('cidsNum', cidsNum);
+      
+      const cardResponse = { success: true, pinataURL: "https://gateway.pinata.cloud/ipfs/QmZwZtRfz2kBT1Frd8RRfgrmDAGJRzCvYiSNd6zN14HSvu" };
+      // const cardResponse = await uploadJSONToIPFS(cardJSON);//TEMPORALMENTE DESACTIVADA DURANTE EL DESARROLLO
       // const cardResponse = { success: true, pinataURL: "https://gateway.pinata.cloud/ipfs/QmWgwHYTUHhc5xb97Psug56JYEWosTdeHnmeNKnrmLR6mS" };
       if (cardResponse.success === true) {
         cardCid = cardResponse.pinataURL;
-        // console.log("Uploaded cardResponseJSON to Pinata: ", cardResponse);
-        // console.log("Uploaded cardResponse JSON PinataURL: ", cardResponse.pinataURL);
-        // return cardResponse.pinataURL;
       }
     }
     catch (e) {
@@ -115,22 +134,31 @@ export default function MintCard() {
     const privateInfoJson = {
       telefono, email
     }
-    // console.log("PREVIO ENCRIPTAR, FileURL", fileURL);
     const encryptedPrivateInfo = encryptData(privateInfoJson);
     console.log("Encrypted Data:", encryptedPrivateInfo);
 
     // const decrypted = decryptData(encryptedPrivateInfo); //SOLO TEMPORALMENTE para pruebas
     // console.log("Decrypted Data:", decrypted);
-
     try {
       if (!encryptedPrivateInfo) {
         return -1;
       }
+      const temporaryPrivateCids =[
+        'https://gateway.pinata.cloud/ipfs/QmeQAynASrqptFsLH8DesA5dYTo6rdm8fWAdqoFAzWsZJY',
+        'https://gateway.pinata.cloud/ipfs/QmRDRxYJsc2YZGTCkam5T4Axom74JadbGJ5kw9vc9gb3hJ',
+        'https://gateway.pinata.cloud/ipfs/QmW87GSnCJ354sowdUPPNa4ofqV9zbewQoyxRw69D8VGVB'
+      ]
+      let privateCidsNum = parseInt(localStorage.getItem('privateCidsNum')) || 0;
       //upload the metadata JSON to IPFS
       const encryptedPrivateInfoObj = { encryptedData: encryptedPrivateInfo };
-      const privateInfoResponse = await uploadJSONToIPFS(encryptedPrivateInfoObj);//TEMPORALMENTE DESACTIVADA DURANTE EL DESARROLLO
+      const privateInfoResponse = { success: true, pinataURL: temporaryPrivateCids[privateCidsNum] }
+      // const privateInfoResponse = await uploadJSONToIPFS(encryptedPrivateInfoObj);//TEMPORALMENTE DESACTIVADA DURANTE EL DESARROLLO
       // const privateInfoResponse = { success: true, pinataURL: "https://gateway.pinata.cloud/ipfs/QmZYgYkrCvK56rFVetKB5f2fi6Kdeq9ioyishLRVg1wYg8" }; //Encriptado
       // const privateInfoResponse = { success: true, pinataURL: "https://gateway.pinata.cloud/ipfs/Qmds1TGp6kRiqpD8qp9Z67TSmqs5nqBk5bmbNDjSskmziW" };//Sin encriptar
+      privateCidsNum++;
+      if(privateCidsNum >= temporaryPrivateCids.length) privateCidsNum = 0;
+      localStorage.setItem('privateCidsNum', privateCidsNum);
+      
       if (privateInfoResponse.success === true) {
         privateInfoCid = privateInfoResponse.pinataURL;
         // console.log("Uploaded privateInfoJson to Pinata: ", privateInfoResponse);
@@ -181,13 +209,33 @@ export default function MintCard() {
       if (contract && cardCid && privateInfoCid && address) {
         console.log("cardId-Pre-ADD", cardId);
         console.log("Address", address);
-        let transaction = await contract.createCardFor(cardCid, privateInfoCid, address);
+        let transaction = await contract?.createCardFor(cardCid, privateInfoCid, address);
         await transaction.wait();
         console.log("transaction", transaction);
+        try{
+        const amountValue = ethers.parseEther("0.0015");
+        // const amountValue = 1500000000000000;
+
+        // Enviar ETH directamente desde la cuenta dueña del contrato
+        console.log("amountValue Mint", amountValue);
+        const signer = await provider.getSigner();
+        console.log("contract.signer Mint", signer);
+        const transferTx = await signer.sendTransaction({
+          to: address,
+          value: amountValue
+        });
+        await transferTx.wait();
+        console.log("transferTx", transferTx);
+        console.log(`Se han enviado 0.0015 ETH a la dirección: ${address}`);
+        toast(`Se han enviado 0.0015 ETH a la dirección: ${address}`)
+      } catch (error) {
+        toast.error("Error al enviar ETH:", error);
+        console.error("Error al enviar ETH:", error.message);
+      }
         //   setTimeout(() => {
         //     alert("Successfully listed your Card!");  
         // }, 150000); // 8000 milisegundos = 8 segundos
-        addCardToWallet(contractAddress, cardId, fileURL);
+        addCardToWallet(contractAddress, cardId.toString(), fileURL);
         alert("Successfully listed your Card!");
       }
 

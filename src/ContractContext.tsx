@@ -1,16 +1,12 @@
 // ContractContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
-// import { ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { BusinessCardABI } from './assets/abis/BusinessCardABI';
 import { contractAddress } from './assets/constants';
 import { useAccount, useConfig, useChainId, usePublicClient, useWalletClient, useSwitchChain } from 'wagmi'
-
-// import { ConnectToMetamaskOnly } from './utils/ConnectToMetamaskOnly';// type ContractContextType = ethers.Contract | null;
-console.log("contractAddress", contractAddress);
-
-import { ethers } from "ethers";
 import { useNavigate } from 'react-router-dom';
 
+// import { ConnectToMetamaskOnly } from './utils/ConnectToMetamaskOnly';// type ContractContextType = ethers.Contract | null;
 
 
 interface ContractContextType {
@@ -26,7 +22,7 @@ const ContractContext = createContext<ContractContextType | undefined>(undefined
 
 export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [contract, setContract] = useState<ethers.Contract | null>(null);
-  const { address, isConnected } = useAccount(); 
+  const { address, isConnected } = useAccount();
   // const config = useConfig()
   const chainId = useChainId() // Proporcionado por Wagmi
   // const provider = usePublicClient();
@@ -35,14 +31,13 @@ export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [userDisconnected, setUserDisconnected] = useState(false); // Estado para manejar desconexión
   const [companyId, setCompanyId] = useState(0);
   const CORRECT_CHAIN_ID = 421614 // ID de Arbitrum Sepolia
-const { switchChain } = useSwitchChain()
+  const { switchChain } = useSwitchChain()
   // let companyId = 0;
-
-useEffect(() => {
+  useEffect(() => {
     // Redirigir al usuario si no está conectado
     if (!isConnected) {
       setUserDisconnected(true);  // Cambiamos el estado global para forzar un rerender
-    }else{
+    } else {
       setUserDisconnected(false);
 
     }
@@ -58,37 +53,37 @@ useEffect(() => {
 
 
   useEffect(() => {
-    const init = async () => { 
+    const init = async () => {
       if (isConnected) {
         if (chainId !== CORRECT_CHAIN_ID) {
           alert('Por favor, cambia a la red Arbitrum Sepolia')
           await switchToCorrectNetwork()
           return
         }
-      const provider = new ethers.BrowserProvider(window.ethereum); 
-      setProvider(provider);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        setProvider(provider);
 
-      const signer = await provider.getSigner();
+        const signer = await provider.getSigner();
 
-      const _contract = new ethers.Contract(contractAddress, BusinessCardABI, signer);
-      setContract(_contract);
+        const _contract = new ethers.Contract(contractAddress, BusinessCardABI, signer);
+        setContract(_contract);
 
-    try {
-        const companyId = await _contract.getMyCompanyId();
-        setCompanyId(parseInt(companyId.toString()));
-    } catch (error) {
-        console.error("Error al obtener el companyId" + error)
-    }
+        try {
+          const companyId = await _contract.getMyCompanyId();
+          setCompanyId(parseInt(companyId.toString()));
+        } catch (error) {
+          console.error("Error al obtener el companyId" + error)
+        }
 
-    } else {
-      setProvider(null);
-      setContract(null);
-    }
-  };
-  init();
-}, [isConnected,chainId]);
+      } else {
+        setProvider(null);
+        setContract(null);
+      }
+    };
+    init();
+  }, [isConnected, chainId]);
 
-  
+
 
   const switchToCorrectNetwork = async () => {
     try {
@@ -98,14 +93,16 @@ useEffect(() => {
       console.error('Error al cambiar de red:', error)
     }
   }
-  
-    const checkAndSwitchNetwork = async () => {
-      if (isConnected && chainId !== CORRECT_CHAIN_ID) {
-        await switchToCorrectNetwork()
-      }
-    }
 
-console.log("TODOS datos en context: ", contract, address, isConnected, provider, companyId);
+  const checkAndSwitchNetwork = async () => {
+    if (isConnected && chainId !== CORRECT_CHAIN_ID) {
+      await switchToCorrectNetwork()
+    }
+  }
+  console.log('Chain ID actual:', chainId)
+  console.log('¿Está conectado?', isConnected)
+  console.log('¿Es la red correcta?', chainId === CORRECT_CHAIN_ID)
+  console.log("TODOS datos en context: ", contract, address, isConnected, provider, companyId);
   return (
     // <ContractContext.Provider value={{ contract, userAddress: address || null, isConnected, provider, companyId, disconnectWallet }}>
     <ContractContext.Provider value={{ contract, userAddress: address || null, isConnected, provider, companyId }}>
