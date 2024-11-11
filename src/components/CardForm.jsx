@@ -35,7 +35,6 @@ const CardForm = ({ onSubmit }) => {
         position: '',
         category: '',
         urls: '',
-        //   privateInfoUrl: '',
         telefono: '+',
         email: '',
         address: ''
@@ -61,28 +60,19 @@ const CardForm = ({ onSubmit }) => {
             // const fileInput = e.target as HTMLInputElement; // Afirmación de tipo
             const fileInput = e.target; 
             const file = fileInput.files?.[0]; // Usa el operador de encadenamiento opcional
-            // console.log("file en inicio de OnChangeFile: ", file)
 
             //check for file extension
             try {
                 //upload the file to IPFS
-                // disableButton();
                 if (!file) return;
                 const compressedImage = await compressImage(file, 600, 600);
-                // console.log("compressedImage: ", compressedImage)
-                console.log("Tamaño original:", file.size, "bytes");
-                console.log("Tamaño comprimido:", compressedImage.size, "bytes");
+                // console.log("Tamaño original:", file.size, "bytes");
+                // console.log("Tamaño comprimido:", compressedImage.size, "bytes");
 
-                //ELIMINAR, comprobaciones de prueba
-                // const originalUrl = URL.createObjectURL(file);
-                // setOriginalUrl(originalUrl);
                 const compressedUrl = URL.createObjectURL(compressedImage);
                 setCompressedPreviewUrl(compressedUrl);
-
-                // console.log("URL imagen original:", originalUrl);
-                console.log("URL imagen comprimida:", compressedUrl);
-
                 updateMessage("Uploading image.. please dont click anything!")
+                
                 const temporaryImages = ['https://gateway.pinata.cloud/ipfs/Qma8W5dmpk5d6Xyy5w8EQHx4aSzGNzjhZuzRTsud5aNmkS',
                     'https://gateway.pinata.cloud/ipfs/QmSG6es91eYZ8KywV9EtT2uhFd2UQ4JN48by3RhYnpRZqv',
                     'https://gateway.pinata.cloud/ipfs/QmWPH43An56Vg3pd2fT5EsCyajShnpNLdYyfbz7CYst5uM',
@@ -150,9 +140,7 @@ const CardForm = ({ onSubmit }) => {
     const handleCancel = () => {
         // e.preventDefault();
         setCancelProcess(true);
-        // updateFormParams({ name: '', position: '', urls: '', privateInfoUrl: ''});
         updateFormParams({ name: '', position: '', urls: '', telefono: '+', email: '', address: '' });
-        // updatePrivateInfo({telefono: '', email: ''});
         setFileURL('');
         updateMessage("");
         setCompressedPreviewUrl('');
@@ -161,37 +149,12 @@ const CardForm = ({ onSubmit }) => {
     // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // const {telefono, email} = privateInfo;
-        // if(!telefono || !email)
-        //     {
-        //         updateMessage("Please fill all the fields!")
-        //         return;
-        //     }
-        //     const privateInfoJSON = {
-        //         telefono, email
-        //     }
-        // console.log("formparams y fileurl en CardForm", formParams, fileURL);
         const { isValid, invalidUrls } = validateUrls(formParams.urls);
-        // console.log("isValid, invalidUrls ", isValid, invalidUrls);
         if (!isValid) {
             updateMessage(`Las siguientes URLs no son válidas: ${invalidUrls.join(', ')}`);
             return;
         }
         try {
-            //upload the metadata JSON to IPFS
-            // const response = await uploadJSONToIPFS(privateInfoJSON);//DESACTIVADO TEMPORALMENTE
-            // const response = { success: true, pinataURL: "https://gateway.pinata.cloud/ipfs/Qmds1TGp6kRiqpD8qp9Z67TSmqs5nqBk5bmbNDjSskmziW" };
-            // if(response.success === true){
-            //     console.log("Uploaded private JSON to Pinata: ", response);
-            //     console.log("Uploaded private JSON PinataURL: ", response.pinataURL);
-            //     // Actualizar formParams con la URL de la información privada
-            //     updateFormParams(prev => ({
-            //         ...prev,
-            //         privateInfoUrl: response.pinataURL || ''
-            //     }));
-            //     // Esperar un momento para asegurarse de que el estado se haya actualizado
-            // await new Promise(resolve => setTimeout(resolve, 0));
-            // }
             const { name, position, category, urls, telefono, email, address } = formParams;
             console.log("DATOS en CARDForm:", name, position, category, urls, telefono, email, address, fileURL);
             // Asegúrate de que los campos no están vacíos
@@ -199,7 +162,6 @@ const CardForm = ({ onSubmit }) => {
                 updateMessage("Por favor, completa todos los campos.");
                 return;
             }
-            // onSubmit({ ...formParams}, {...privateInfo}, fileURL );
             onSubmit({ name, position, category, urls, telefono, email, address }, fileURL);
         }
         catch (e) {
@@ -207,9 +169,6 @@ const CardForm = ({ onSubmit }) => {
             updateMessage("Error uploading private JSON metadata");
         }
     };
-    //   const handlePrivateInfoChange = (field: keyof PrivateInfo, value: string) => {
-    //     updatePrivateInfo(prev => ({ ...prev, [field]: value }));
-    //   };
 
     return (
         <div className="w-full max-w-2xl flex flex-col place-items-center mb-12">
@@ -261,16 +220,6 @@ const CardForm = ({ onSubmit }) => {
                         id="address" type="text" name="address" placeholder="0x1a2B3c4D5e6F7g8H9I0j" required minLength={10}
                         maxLength={50} onChange={e => updateFormParams({ ...formParams, address: e.target.value })} value={formParams.address}></input>
                 </div>
-                {/* <div className="mb-6">
-                    <label className="block text-purple-500 text-sm font-bold mb-2" htmlFor="price">Price (in ETH)</label>
-                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                    type="number" placeholder="Min 0.01 ETH" step="0.01" value={formParams.price} onChange={e => updateFormParams({...formParams, price: e.target.value})}></input>
-                </div> */}
-                {/* <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2" htmlFor="Cuenta">Cuenta</label>
-                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                    id="cuenta" type="text" name="cuenta" placeholder="Número de cuenta" required onChange={e => updateFormParams({...formParams, cuenta: e.target.value})} value={formParams.cuenta}></input>
-                </div> */}
                 <div>
                     <label className="block text-sm font-bold mb-2" htmlFor="image">Subir imagen (&lt;500 KB)</label>
                     <input type={"file"} onChange={OnChangeFile}></input>
@@ -294,9 +243,6 @@ const CardForm = ({ onSubmit }) => {
                         Cancelar
                     </button>
                 </div>
-                {/* <button onClick={mintCard} className="font-bold mt-10 w-full bg-blue-500 text-white rounded p-2 shadow-lg" id="list-button">
-                    Crear Card
-                </button> */}
             </form>
         </div>
     );

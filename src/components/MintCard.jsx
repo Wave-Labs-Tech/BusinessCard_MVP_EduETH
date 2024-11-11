@@ -9,7 +9,7 @@ import { contractAddress } from '../assets/constants/index';
 import CardForm from "./CardForm.jsx";
 import PreMintData from "./PreMintData.jsx";
 import { encryptData, decryptData } from "../utils/Crypto";
-import { useContract } from '../ContractContext';
+import { useContract } from "../contexts/ContractContext";
 import { ClipLoader } from "react-spinners";
 import LoadingScreen from "./LoadingScreen.jsx";
 import { toast } from "react-toastify";
@@ -284,7 +284,7 @@ export default function MintCard() {
         <div className="w-full flex flex-col place-items-center mt-28">
           {message && (<p className="w-full p-4 bg-stone-100 flex justify-center mt-2 text-red-600 text-2xl font-bold rounded-md">
             {message}</p>)}
-          <CardForm className="flex w-full max-w-2xl" onSubmit={handleFormSubmit} />
+          <CardForm onSubmit={handleFormSubmit} />
         </div>
       </div>
     </div>

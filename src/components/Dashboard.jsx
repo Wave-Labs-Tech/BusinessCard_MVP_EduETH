@@ -3,9 +3,8 @@ import CardTile from "./CardTile.jsx";
 import MintCard from "./MintCard.jsx";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useContract } from "../contexts/ContractContext";
 // import { GetIpfsUrlFromPinata } from "../utils/Pinata";
-import { useContract } from '../ContractContext';
-
 export default function Dashboard({ reverse = false }) {
   const { contract, userAddress, isConnected, companyId } = useContract();
   const [data,] = useState([]);

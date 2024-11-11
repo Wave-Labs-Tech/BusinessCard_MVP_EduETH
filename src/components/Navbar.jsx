@@ -5,7 +5,7 @@ import {
 import { useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'react-router';
 // import Web3 from 'web3';
-import { useContract } from '../ContractContext'
+import { useContract } from '../contexts/ContractContext'
 import { useAccount, useDisconnect } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 
@@ -74,7 +74,7 @@ function Navbar() {
               <Link to="/" className="flex items-center space-x-4 text-xl">
                 <img src="/UAI_logo.png" alt="Business Card Logo" className="w-80 h-auto rounded-md mx-4" />
                 Card Exhibition
-              </Link>
+              </Link> 
             </div>
             <ul className='flex items-center space-x-4'>
               <li className='w-fit'>
@@ -82,7 +82,7 @@ function Navbar() {
                   {location.pathname === "/" ?
                     <li className='border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                       <Link to="/">Card Exhibition</Link>
-                    </li>
+                      </li> 
                     :
                     <li className='hover:border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                       <Link to="/">Card Exhibition</Link>

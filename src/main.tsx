@@ -16,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import '@rainbow-me/rainbowkit/styles.css'
 // import { ContractProvider } from './ContractContext';
 import { BrowserRouter } from "react-router-dom";
-import { ContractProvider } from './ContractContext';
+import { ContractProvider } from './contexts/ContractContext.js';
 
 const queryClient = new QueryClient()
 

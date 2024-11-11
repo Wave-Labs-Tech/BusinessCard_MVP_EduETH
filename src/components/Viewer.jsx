@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 // import { ethers, JsonRpcProvider } from 'ethers';
 import axios from 'axios'
 import Navbar from "./Navbar.jsx";
-import { useContract } from '../ContractContext'
+import { useContract } from "../contexts/ContractContext";
 import { CardDataComponent } from './CardDataComponent';
 
 // interface NFTData {

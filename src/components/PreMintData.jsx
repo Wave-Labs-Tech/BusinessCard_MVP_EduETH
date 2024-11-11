@@ -1,7 +1,7 @@
 // import CardForm from "./CardForm";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useContract } from '../ContractContext';
+import { useContract } from '../contexts/ContractContext';
 import { contractAddress } from '../assets/constants/index';
 import { ethers } from "ethers";
 

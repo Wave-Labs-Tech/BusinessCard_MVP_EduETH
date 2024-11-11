@@ -99,15 +99,34 @@ contract BusinessCard is ERC721, Ownable, ERC721URIStorage {
      */
     constructor() ERC721("Business Card", "BCARD") Ownable(msg.sender) { }
 
+    /**
+     * @dev Overrides the tokenURI function to return the URI for a given token ID.
+     * This function is required to comply with the ERC721URIStorage extension.
+     * @param tokenId The ID of the token to query.
+     * @return A string containing the URI for the given token ID.
+     */
     function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
         return super.tokenURI(tokenId);
     }
 
+    /**
+     * @dev Retrieves the token URI associated with a given address.
+     * This function allows querying the URI of a card by its owner's address instead of token ID.
+     * @param owner_ The address of the card owner.
+     * @return A string containing the URI of the card associated with the given address.
+     * @notice Reverts if the provided address does not have an associated card.
+     */
     function tokenUriByAddress(address owner_) public view returns(string memory) {
         require(cards[owner_].exists, "The address provided does not have any associated card.");
         return tokenURI(cards[owner_].tokenId);
     }
 
+    /**
+     * @dev Checks if the contract supports a given interface.
+     * This function is required to properly handle interface support for both ERC721 and ERC721URIStorage.
+     * @param interfaceId The interface identifier, as specified in ERC-165.
+     * @return bool True if the contract supports the interface, false otherwise.
+     */
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721URIStorage) returns (bool) {
         return super.supportsInterface(interfaceId);
     }

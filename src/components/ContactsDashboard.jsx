@@ -4,8 +4,7 @@ import MintCard from "./MintCard.jsx";
 import axios from "axios";
 import { useState, useEffect } from "react";
 // import { GetIpfsUrlFromPinata } from "../utils/Pinata";
-import { useContract } from '../ContractContext';
-
+import { useContract } from "../contexts/ContractContext";
 export default function ContactsDashboard({ reverse = false }) {
   const { contract, userAddress, isConnected, companyId } = useContract();
   const [data,] = useState([]);

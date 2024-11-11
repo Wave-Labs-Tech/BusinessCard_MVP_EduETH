@@ -1,8 +1,8 @@
 // ContractContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { BusinessCardABI } from './assets/abis/BusinessCardABI';
-import { contractAddress } from './assets/constants';
+import { BusinessCardABI } from '../assets/abis/BusinessCardABI';
+import { contractAddress } from '../assets/constants';
 import { useAccount, useConfig, useChainId, usePublicClient, useWalletClient, useSwitchChain } from 'wagmi'
 import { useNavigate } from 'react-router-dom';
 

@@ -5,7 +5,7 @@ import { decryptData } from "../utils/Crypto";
 import { useLocation, useParams } from 'react-router-dom';
 // import { BusinessCardABI } from "../assets/abis/BusinessCardABI";
 // import { contractAddress } from "../assets/constants";
-import { useContract } from '../ContractContext';
+import { useContract } from "../contexts/ContractContext";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import CardTile from "./CardTile.jsx";

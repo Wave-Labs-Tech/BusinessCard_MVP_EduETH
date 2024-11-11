@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useContract } from '../ContractContext';
-import axios from "axios";
+import { useContract } from "../contexts/ContractContext";
 import { decryptData } from "../utils/Crypto";
 import { GetCardData } from '../utils/CardData';
 import Navbar from "./Navbar.jsx";

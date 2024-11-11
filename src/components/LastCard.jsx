@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
-import { useContract } from '../ContractContext';
+import { useContract } from "../contexts/ContractContext";
 import { GetCardData } from '../utils/CardData';
 import Navbar from "./Navbar.jsx";
 import CardTile from "./CardTile.jsx";
