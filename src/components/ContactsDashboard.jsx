@@ -72,20 +72,12 @@ export default function ContactsDashboard({ reverse = false }) {
             <>
               <div>
                 <Navbar></Navbar>
-                {companyId && !reverse ? (
-                  <div className="w-full">
-                    <MintCard className="w-full w-full max-w-2xl" />
-        
-                  </div>
-        
-                ) : (
-        
                   <div className="w-full flex flex-col justify-center place-items-center m-auto mt-32 text-center">
                     <div className="flex flex-col items-center md:text-xl font-bold text-white">
                       <h1 className="md:text-4xl font-bold text-white mb-10">
-                        La tarjeta de presentación del Siglo XXI</h1>
+                        El ecosistema laboral del Siglo XXI</h1>
                       <h2 className="md:text-3xl font-bold text-white mb-10">
-                        Una revolución en las interacciones profesionales</h2>
+                        La revolución digital en las relaciones profesionales</h2>
                       <p className="w-4/5 py-2 px-12 md:text-xl font-bold text-stone-700 bg-stone-200 rounded-md">
                       Una tarjeta que proporciona datos verificables propiedad del usuario y trazabilidad de las interacciones,
                       eliminando tarjetas físicas y fomentando la sostenibilidad y la mejora de las relaciones profesionales en el mundo digital.</p>
@@ -136,7 +128,6 @@ export default function ContactsDashboard({ reverse = false }) {
                       </div>
                     </div>
                   </div>
-                )}
               </div>
             </>
           );

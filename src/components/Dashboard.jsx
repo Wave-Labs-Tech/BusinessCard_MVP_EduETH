@@ -143,13 +143,10 @@ console.log("CARDDATA", cardData);
     <>
       <div>
         <Navbar></Navbar>
-        {companyId && !reverse ? (
           <div className="w-full">
-            <MintCard className="w-full w-full max-w-2xl" />
+            {/* <MintCard className="w-full w-full max-w-2xl" /> */}
 
           </div>
-
-        ) : (
 
           <div className="w-full flex flex-col justify-center place-items-center m-auto mt-32 text-center">
             <div className="flex flex-col items-center md:text-xl font-bold text-white">
@@ -224,7 +221,7 @@ console.log("CARDDATA", cardData);
               </div>
             </div>
           </div>
-        )}
+        
       </div>
     </>
   );

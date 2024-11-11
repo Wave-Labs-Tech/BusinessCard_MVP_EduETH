@@ -72,7 +72,7 @@ function Navbar() {
           <div className="flex items-center w-full justify-between py-3">
             <div className='text-bg-800 font-bold space-x-4'>
               <Link to="/" className="flex items-center space-x-4 text-xl">
-                <img src="/UAI_logo.png" alt="Business Card Logo" className="w-80 h-auto rounded-md mx-4" />
+                <img src="/BusinessCard_logo.png" alt="Business Card Logo" className="w-80 h-auto rounded-md mx-4" />
                 Card Exhibition
               </Link> 
             </div>
@@ -95,6 +95,15 @@ function Navbar() {
                     :
                     <li className='hover:border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
                       <Link to="/CardDetails">Card Details</Link>
+                    </li>
+                  }
+                  {location.pathname === "/MintCard" ?
+                    <li className='border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
+                      <Link to="/MintCard">Mint Card</Link>
+                    </li>
+                    :
+                    <li className='hover:border-b-2 border-stone-800 hover:pb-0 p-2 whitespace-nowrap'>
+                      <Link to="/MintCard">Mint Card</Link>
                     </li>
                   }
                   {location.pathname === "/viewer" ?
